@@ -3,7 +3,7 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
-# ros2 launch deltax_descriptions display.launch.py model:='urdf/simple.urdf'
+# ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_v5_d800.urdf'
 
 def generate_launch_description():
     ld = LaunchDescription()
