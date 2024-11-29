@@ -42,11 +42,11 @@ class Kinematic():
             self.__defauld_ball_moving = self.ball_moving
 
     def set_robot_parameter(self, rd_rf = 0.0, rd_re = 0.0, rd_e = 0.0, rd_f = 0.0, rd_of = 0.0):
-        self.__rd_rf = rd_rf
-        self.__rd_re = rd_re
-        self.__rd_e = rd_e
-        self.__rd_f = rd_f
-        self.__rd_of = rd_of
+        self.__rd_rf = rd_rf # lenght/radius of upper arm
+        self.__rd_re = rd_re # length/radius of lower arm
+        self.__rd_e = rd_e # end effector triangle side length
+        self.__rd_f = rd_f # base triangle side length
+        self.__rd_of = rd_of # base z offset
 
         self.forward(0.0, 0.0, 0.0)
         self.__defauld_ball_top = self.ball_top1

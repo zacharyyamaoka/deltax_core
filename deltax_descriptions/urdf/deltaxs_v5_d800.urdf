@@ -4,6 +4,8 @@
      For more information. please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot name="deltax_descriptions">
 
+<!-- Serial Chain -->
+
   <link name="base_link">
 
     <inertial>
@@ -64,7 +66,6 @@
     <child link="rf1_Link" />
     <axis xyz="0 0 -1" />
   </joint>
-
 
   <link name="ball_top1_Link">
     <inertial>
@@ -193,14 +194,25 @@
 
   </link>
 
-  <joint
-    name="ball_moving"
-    type="continuous">
+  <joint name="ball_moving" type="continuous">
     <origin xyz="0 0 0" rpy="2.5591 1.5708 0" />
     <parent link="ball_bot1_Link" />
     <child link="ball_moving_Link" />
     <axis xyz="-1 0 0" />
   </joint>
+
+<!-- New Links/Joints -->
+
+  <link name="3_dof_frame">
+  </link>
+
+  <joint name="3_dof_frame_joint" type="fixed">
+    <origin xyz="0.0333733971724094 0.034641 0" rpy="0 0 0" />
+    <parent link="ball_moving_Link" />
+    <child link="3_dof_frame" />
+  </joint>
+
+<!-- Fixed Links on Moving Platform -->
 
   <link name="ball_bot2_Link">
 
@@ -269,6 +281,8 @@
     <child link="ball_bot3_Link" />
     <axis xyz="0 0 0" />
   </joint>
+
+<!-- Driven Parrallel Links -->
 
   <link name="re2_Link">
 
@@ -575,5 +589,5 @@
     <child link="re6_Link" />
     <axis xyz="1 0 0" />
   </joint>
-  
+
 </robot>

@@ -64,6 +64,10 @@ Visualization Manager:
         Value: /robot_description
       Enabled: true
       Links:
+        3_dof_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
@@ -166,43 +170,43 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
+        3_dof_frame:
+          Value: true
         All Enabled: false
         ball_bot1_Link:
           Value: true
         ball_bot2_Link:
-          Value: true
+          Value: false
         ball_bot3_Link:
-          Value: true
+          Value: false
         ball_moving_Link:
           Value: true
         ball_top1_Link:
           Value: true
         ball_top2_Link:
-          Value: true
+          Value: false
         ball_top3_Link:
-          Value: true
+          Value: false
         base_link:
-          Value: true
-        odom:
           Value: true
         re1_Link:
           Value: true
         re2_Link:
-          Value: true
+          Value: false
         re3_Link:
-          Value: true
+          Value: false
         re4_Link:
-          Value: true
+          Value: false
         re5_Link:
-          Value: true
+          Value: false
         re6_Link:
-          Value: true
+          Value: false
         rf1_Link:
           Value: true
         rf2_Link:
-          Value: true
+          Value: false
         rf3_Link:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -215,6 +219,8 @@ Visualization Manager:
               re1_Link:
                 ball_bot1_Link:
                   ball_moving_Link:
+                    3_dof_frame:
+                      {}
                     ball_bot2_Link:
                       {}
                     ball_bot3_Link:
@@ -233,8 +239,6 @@ Visualization Manager:
                 {}
               re6_Link:
                 {}
-        odom:
-          {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -283,25 +287,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.4200007915496826
+      Distance: 0.45168453454971313
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.0552559494972229
-        Y: 0.001376336207613349
-        Z: -0.23553235828876495
+        X: -0.057253606617450714
+        Y: -0.10470087081193924
+        Z: -0.6011414527893066
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6647971868515015
+      Pitch: 0.7747970819473267
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.536722183227539
+      Yaw: 4.05169677734375
     Saved: ~
 Window Geometry:
   Displays:
