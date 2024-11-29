@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bam_v1_full">
+
+    <xacro:include filename="$(find bam_descriptions)/urdf/common.xacro" />
+    <xacro:include filename="$(find bam_descriptions)/urdf/bam_v1.urdf.xacro"/>
+    <xacro:include filename="$(find bam_descriptions)/urdf/teleop_gripper.urdf.xacro"/>
+
+    <!-- Define Args -->
+
+    <xacro:arg name="left_transport_path" default=""/>
+    <xacro:property name="left_transport_path" value="$(arg left_transport_path)" />
+
+    <xacro:arg name="right_transport_path" default=""/>
+    <xacro:property name="right_transport_path" value="$(arg right_transport_path)" />
+
+    <xacro:arg name="mock_hardware" default="false"/>
+    <xacro:property name="mock_hardware" value="$(arg mock_hardware)" />
+
+    <xacro:property name="shoulder_width" value="0.4"/>
+
+    <!-- Instate Robot -->
+    <xacro:bam_v1_urdf side="right" reflect="1" transport_path="${right_transport_path}" mock_hardware="${mock_hardware}" set_base_link="false"/>
+    <xacro:bam_v1_urdf side="left" reflect="-1" transport_path="${left_transport_path}" mock_hardware="${mock_hardware}" set_base_link="false"/>
+
+    <xacro:teleop_gripper_urdf side="right" />
+    <xacro:teleop_gripper_urdf side="left" />
+
+
+    <!-- Define New Base Link in Center -->
+
+    <link name="base_link"/>
+
+    <joint name="torso_fixed_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0" />
+        <parent link="base_link" />
+        <child link="torso_link" />
+    </joint>
+
+    <link name="torso_link"/>
+
+    <joint name="right_fixed_joint" type="fixed">
+        <origin xyz="${shoulder_width/2} 0.0 0.0" rpy="0.0 0.0 0" />
+        <parent link="torso_link" />
+        <child link="right_base_link" />
+    </joint> 
+
+    <joint name="left_fixed_joint" type="fixed">
+        <origin xyz="${-shoulder_width/2} 0.0 0.0" rpy="0.0 0.0 0" />
+        <parent link="torso_link" />
+        <child link="left_base_link" />
+    </joint>
+
+  <joint name="camera_fixed_joint" type="fixed">
+      <origin xyz="0.0 0.1 -0.025" rpy="0.0 ${pi} ${pi}" />
+      <parent link="torso_link" />
+      <child link="camera_color_optical_frame" />
+  </joint>
+  
+  <link name="camera_color_optical_frame">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://bam_descriptions/meshes/D435.stl"/>
+      </geometry>
+    </visual>
+  </link>
+  
+</robot>

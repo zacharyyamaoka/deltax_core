@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bam_v1_left">
+
+  <xacro:include filename="$(find bam_descriptions)/urdf/common.xacro" />
+
+  <!-- Variables -->
+  <!-- <xacro:arg name="transport_path" default=""/>
+  <xacro:property name="transport_path" value="$(arg transport_path)" />
+
+  <xacro:arg name="mock_hardware" default="false"/>
+  <xacro:property name="mock_hardware" value="$(arg mock_hardware)" /> -->
+
+  <xacro:property name="shoulder_width" value="${0.14*2}"/>
+
+  <!-- Robot -->
+  <xacro:include filename="$(find bam_descriptions)/urdf/bam_v1.urdf.xacro"/>
+  <xacro:bam_v1_urdf side="left"
+                     reflect="-1"
+                     transport_path="" 
+                     mock_hardware="true" 
+                     ros2_control="false" 
+                     gripper="false" 
+                     set_base_link="false"/>
+
+  <!-- Define New Base Link in Center -->
+
+  <link name="base_link"/>
+
+  <joint name="rack_fixed_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0" />
+      <parent link="base_link" />
+      <child link="rack" />
+  </joint>
+
+  <link name="rack">
+    <visual>
+      <geometry>
+        <mesh filename="package://bam_descriptions/meshes/rack.stl"/>
+      </geometry>
+      <material name="StoglRobotics/LightGrey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://bam_descriptions/meshes/rack.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_fixed_joint" type="fixed">
+      <origin xyz="${-shoulder_width/2} 0.0 0.0" rpy="0.0 0.0 0" />
+      <parent link="rack" />
+      <child link="left_base_link" />
+  </joint>
+
+</robot>
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="deltax_descriptions">
+    <group name="body">
+        <joint name="theta1" />
+        <joint name="theta2" />
+        <joint name="theta3" />
+        <joint name="ball_top1" />
+        <joint name="ball_top2" />
+        <joint name="ball_top3" />
+        <joint name="re1" />
+        <joint name="re2" />
+        <joint name="re3" />
+        <joint name="re4" />
+        <joint name="re5" />
+        <joint name="re6" />
+        <joint name="re_ball" />
+        <joint name="ball_moving" />
+    </group>
+    <group_state name="home" group="body">
+        <joint name="body/theta1" value="0.0" />
+        <joint name="body/theta2" value="0.0" />
+        <joint name="body/theta3" value="0.0" />
+        <joint name="body/ball_top1" value="0.0" />
+        <joint name="body/ball_top2" value="0.0" />
+        <joint name="body/ball_top3" value="0.0" />
+        <joint name="body/re1" value="0.0" />
+        <joint name="body/re2" value="0.0" />
+        <joint name="body/re3" value="0.0" />
+        <joint name="body/re4" value="0.0" />
+        <joint name="body/re5" value="0.0" />
+        <joint name="body/re6" value="0.0" />
+        <joint name="body/re_ball" value="0.0" />
+        <joint name="body/ball_moving" value="0.0" />
+    </group_state>
+
+</robot>

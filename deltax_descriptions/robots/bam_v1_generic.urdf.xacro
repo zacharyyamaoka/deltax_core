@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bam_v1_generic">
+
+<!-- Set your arguments -->
+  <xacro:arg name="side" default=""/>
+  <xacro:arg name="reflect" default=""/>
+  <xacro:arg name="transport_path" default=""/>
+  <xacro:arg name="set_base_link" default="" />
+
+  <!-- Config Params -->
+  <xacro:property name="side" value="$(arg side)" />
+  <xacro:property name="reflect" value="$(arg reflect)" />
+  <xacro:property name="transport_path" value="$(arg transport_path)" />
+  <xacro:property name="set_base_link" value="$(arg set_base_link)" />
+  
+<!-- Robot -->
+  <xacro:include filename="$(find bam_descriptions)/urdf/bam_v1.urdf.xacro"/>
+  <xacro:bam_v1_urdf side="${side}" reflect="${reflect}" transport_path="${transport_path}" set_base_link="${set_base_link}"/>
+
+</robot>
+
