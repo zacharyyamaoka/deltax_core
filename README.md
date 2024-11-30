@@ -8,7 +8,7 @@ The stack is set up as a ROS metapackage, which organizes our codebase into the 
 - **deltax_driver**
   - Lower-level code for communicating with hardware (ie motor drivers) and providing a ROS interface to them
 
-## How do I set up the computer to run my arm?
+## Installation
 
 - Tested on Ubuntu 22.04 LTS and ROS Iron
 
@@ -33,6 +33,15 @@ The stack is set up as a ROS metapackage, which organizes our codebase into the 
   ```bash
   source ~/<your_ws>/install/setup.bash
   ```
+
+## Use Cases
+
+Assumes you are in a sourced workspace
+#### View Arm
+  ```bash
+    ros2 launch deltax_descriptions display.launch.py
+  ```
+
 
 ## References
 
