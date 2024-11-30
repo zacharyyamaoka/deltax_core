@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="deltax_d800">
-<!-- Serial Chain -->
+
+<!-- Materials - START -->
+
+  <material name="LightGrey">
+    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+  </material>
+  
+<!-- Materials - END -->
+
+<!-- Serial Chain - START -->
 
   <link name="base_link">
 
@@ -42,9 +51,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/rf1_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -75,9 +82,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/ball_top1_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -109,9 +114,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/re1_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -131,6 +134,7 @@
   </joint>
 
   <link name="ball_bot1_Link">
+
     <inertial>
       <origin xyz="0 -3.88578058618805E-16 -0.0333733971724045" rpy="0 0 0" />
       <mass value="0.00403450389151663" />
@@ -142,9 +146,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/ball_bot1_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -176,9 +178,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/ball_moving_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -197,7 +197,7 @@
     <axis xyz="-1 0 0" />
   </joint>
 
-<!-- New Links/Joints -->
+<!-- New Links/Joints - PLEASE REVIEW -->
 
   <link name="3_dof_frame"/>
 
@@ -214,9 +214,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/axis4_origin.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
   </link>
@@ -234,17 +232,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <!-- <cylinder length="0.02" radius="0.03" /> -->
         <mesh filename="package://deltax_descriptions/meshes/axis5_origin.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
   </link>
 
-<!-- TODO get correct xy(z) transform -->
+
   <joint name="fixed5" type="fixed">
     <origin xyz="0 0 -0.01" rpy="0 0 0" /> 
     <parent link="axis4_link" />
@@ -255,14 +250,10 @@
 
     <visual>
       <origin xyz="-0.014 0 -0.00268" rpy="-1.57 0 3.14" />
-
-      <!-- <origin xyz="-0.014 0 0.00268" rpy="1.57 0 3.14" /> -->
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/axis6_origin.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
   </link>
@@ -282,9 +273,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/axis6_flange_origin.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
   </link>
@@ -297,7 +286,9 @@
     <limit lower="-3.14" upper="3.14" effort="5.0" velocity="10.0"/>
   </joint>
 
-<!-- Fixed Links on Moving Platform -->
+<!-- Serial Chain - END -->
+
+<!-- Fixed Links on Moving Platform - START -->
 
   <link name="ball_bot2_Link">
 
@@ -312,9 +303,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/ball_bot2_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -346,9 +335,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/ball_bot3_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -367,7 +354,9 @@
     <axis xyz="0 0 0" />
   </joint>
 
-<!-- Driven Parrallel Links -->
+<!-- Fixed Links on Moving Platform - END -->
+
+<!-- Driven Parallel Links - START -->
 
   <link name="re2_Link">
 
@@ -382,9 +371,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/re2_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -416,9 +403,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/rf2_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -450,9 +435,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/ball_top2_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -484,9 +467,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/re3_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -518,9 +499,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/re4_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -586,9 +565,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/ball_top3_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -620,9 +597,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/re5_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -654,9 +629,7 @@
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/re6_Link.STL" />
       </geometry>
-      <material name="LightGrey">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
-      </material>
+      <material name="LightGrey"/>
     </visual>
 
     <collision>
@@ -674,5 +647,7 @@
     <child link="re6_Link" />
     <axis xyz="1 0 0" />
   </joint>
+
+<!-- Driven Parallel Links - END -->
 
 </robot>
