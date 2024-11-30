@@ -73,6 +73,26 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        axis4_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        axis5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        axis6_flange_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        axis6_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         ball_bot1_Link:
           Alpha: 1
           Show Axes: false
@@ -171,26 +191,34 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         3_dof_frame:
-          Value: true
+          Value: false
         All Enabled: false
-        ball_bot1_Link:
+        axis4_link:
+          Value: false
+        axis5_link:
+          Value: false
+        axis6_flange_link:
           Value: true
+        axis6_link:
+          Value: true
+        ball_bot1_Link:
+          Value: false
         ball_bot2_Link:
           Value: false
         ball_bot3_Link:
           Value: false
         ball_moving_Link:
-          Value: true
+          Value: false
         ball_top1_Link:
-          Value: true
+          Value: false
         ball_top2_Link:
           Value: false
         ball_top3_Link:
           Value: false
         base_link:
-          Value: true
+          Value: false
         re1_Link:
-          Value: true
+          Value: false
         re2_Link:
           Value: false
         re3_Link:
@@ -202,14 +230,14 @@ Visualization Manager:
         re6_Link:
           Value: false
         rf1_Link:
-          Value: true
+          Value: false
         rf2_Link:
           Value: false
         rf3_Link:
           Value: false
-      Marker Scale: 1
+      Marker Scale: 0.5
       Name: TF
-      Show Arrows: true
+      Show Arrows: false
       Show Axes: true
       Show Names: false
       Tree:
@@ -220,7 +248,11 @@ Visualization Manager:
                 ball_bot1_Link:
                   ball_moving_Link:
                     3_dof_frame:
-                      {}
+                      axis4_link:
+                        axis5_link:
+                          axis6_link:
+                            axis6_flange_link:
+                              {}
                     ball_bot2_Link:
                       {}
                     ball_bot3_Link:
@@ -287,25 +319,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 0.45168453454971313
+      Distance: 0.41804954409599304
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.057253606617450714
-        Y: -0.10470087081193924
-        Z: -0.6011414527893066
+        X: 0.047816358506679535
+        Y: 0.025105983018875122
+        Z: -0.8116384148597717
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7747970819473267
+      Pitch: 0.07520192861557007
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.05169677734375
+      Yaw: 0.44670426845550537
     Saved: ~
 Window Geometry:
   Displays:

@@ -8,6 +8,8 @@ from rclpy.qos import QoSProfile
 from geometry_msgs.msg import Quaternion
 from sensor_msgs.msg import JointState
 from tf2_ros import TransformBroadcaster, TransformStamped
+from tf2_ros.buffer import Buffer
+from tf2_ros.transform_listener import TransformListener
 from deltax_driver.deltax_kinematic import Kinematic
 
 """
@@ -22,7 +24,16 @@ class StatePublisher(Node):
 
         qos_profile = QoSProfile(depth=10)
         self.joint_pub = self.create_publisher(JointState, 'joint_states', qos_profile)  # JointStates
-        self.broadcaster = TransformBroadcaster(self, qos=qos_profile)
+        self.tf_broadcaster = TransformBroadcaster(self, qos=qos_profile)
+
+        # self.tf_buffer = Buffer()
+        # self.tf_listener = TransformListener(self.tf_buffer, self, spin_thread=False)
+
+        # self.get_logger().info("Waiting for tf transform...")
+
+        # future = self.tf_buffer.wait_for_transform_async('3_dof_frame','base_link',rclpy.time.Time())
+        # rclpy.spin_until_future_complete(self, future)
+
         self.nodeName = self.get_name()
         self.get_logger().info("{0} started".format(self.nodeName))
 
@@ -97,7 +108,7 @@ class StatePublisher(Node):
 
                 # send the joint state and transform
                 self.joint_pub.publish(joint_state)
-                self.broadcaster.sendTransform(odom_trans)
+                self.tf_broadcaster.sendTransform(odom_trans)
                 
                 x += i
 
@@ -105,6 +116,8 @@ class StatePublisher(Node):
                     i = -10
                 if x < -100:
                     i = 10
+
+                self.get_logger().info("Looping")
 
                 # This will adjust as needed per iteration
                 loop_rate.sleep()

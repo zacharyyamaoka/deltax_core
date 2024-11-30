@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
-     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
-     For more information. please see http://wiki.ros.org/sw_urdf_exporter -->
-<robot name="deltax_descriptions">
-
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="deltax_d800">
 <!-- Serial Chain -->
 
   <link name="base_link">
@@ -258,7 +254,9 @@
   <link name="axis6_link">
 
     <visual>
-      <origin xyz="-0.014 0 0.00268" rpy="1.57 0 3.14" />
+      <origin xyz="-0.014 0 -0.00268" rpy="-1.57 0 3.14" />
+
+      <!-- <origin xyz="-0.014 0 0.00268" rpy="1.57 0 3.14" /> -->
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/axis6_origin.STL" />
       </geometry>
@@ -270,7 +268,7 @@
   </link>
 
   <joint name="theta5" type="revolute">
-    <origin xyz="0 0 -0.086" rpy="1.57 0 0" /> 
+    <origin xyz="0 0 -0.086" rpy="-1.57 0 0" /> 
     <parent link="axis5_link" />
     <child link="axis6_link" />
     <axis xyz="0 0 1"/>
@@ -280,10 +278,9 @@
   <link name="axis6_flange_link">
 
     <visual>
-      <origin xyz="0 0 -0.01" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 1.57 0" />
       <geometry>
-        <cylinder length="0.02" radius="0.0225" />
-        <mesh filename="package://deltax_descriptions/meshes/axis6_flange.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/axis6_flange_origin.STL" />
       </geometry>
       <material name="LightGrey">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -293,13 +290,12 @@
   </link>
 
   <joint name="theta6" type="revolute">
-    <origin xyz="0 0 -0.026" rpy="0 1.57 0" /> 
+    <origin xyz="0 0 ${0.026-0.00268}" rpy="0 1.57 0" /> 
     <parent link="axis6_link" />
     <child link="axis6_flange_link" />
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="5.0" velocity="10.0"/>
   </joint>
-
 
 <!-- Fixed Links on Moving Platform -->
 
