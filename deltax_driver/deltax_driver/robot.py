@@ -208,11 +208,12 @@ class DeltaX():
                     self.__remote_feedback_queue(DeltaX.Gcode_Macro)
                 elif key_response == "Model": # last return line of Infor
                     self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-                elif key_response == "Delta:Stop": # return for Emergency:
-                    # self.__remote_feedback_queue(DeltaX.Gcode_G_M) #remove previous command which will not return ok
-                    self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+
                 elif key_response == "Delta": # return for Emergency:
                     self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+
+                    if value_response == "Stop" or value_response == "Pause":
+                        self.__feedback_queue.clear()
             else:
                 if response[0] == "I":
                     self.__remote_feedback_queue(DeltaX.Gcode_G_M)
@@ -228,6 +229,9 @@ class DeltaX():
                             self.__real_position[index] = float(_list_position[index])
                     
     def __send_gcode_to_robot(self, data):
+        if self.__same_line:
+            print() 
+            self.__same_line = False
         print(">>", data)
         if self.__serial.isOpen() == False:
             return
@@ -242,6 +246,7 @@ class DeltaX():
             else:
                 self.__feedback_queue.append(DeltaX.Gcode_G_M)
 
+        else:
             self.__feedback_queue.append(DeltaX.Gcode_Macro)
         self.__serial.write(data.encode())
     
