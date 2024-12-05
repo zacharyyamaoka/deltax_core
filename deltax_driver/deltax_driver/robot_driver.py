@@ -130,10 +130,10 @@ def main():
 
         if rever == True:
             rever = False
-            gcocde = "G0 X-100 Y-100  Z-750 W0 U0 V0  F500 A500"
+            gcocde = "G0 X-100 Y-100  Z-750 W0 U0 V0 S0 E0 F3000 A500"
         else:
             rever = True
-            gcocde = "G0 X100 Y100  Z-750 W0 U0 V0  F500 A500"
+            gcocde = "G0 X100 Y100  Z-750 W0 U0 V0 S0 E0 F3000 A500"
 
         deltax.sendGcode(gcocde)
 

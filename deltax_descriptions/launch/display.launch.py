@@ -5,6 +5,8 @@ from launch_ros.substitutions import FindPackageShare
 
 # ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_v5_d800.urdf'
 
+# ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_d800_6axis.urdf.xacro'
+
 def generate_launch_description():
     ld = LaunchDescription()
 
@@ -18,7 +20,7 @@ def generate_launch_description():
     rviz_arg = DeclareLaunchArgument(name='rvizconfig', default_value=PathJoinSubstitution([FindPackageShare(package_name), 'rviz', 'urdf.rviz']), description='Absolute path to rviz config file')
     ld.add_action(rviz_arg)
 
-    model_arg = DeclareLaunchArgument(name='model', default_value=PathJoinSubstitution(['urdf', 'deltaxs_v5_d800.urdf.xacro']), description='Path to robot urdf file relative to urdf_tutorial package')
+    model_arg = DeclareLaunchArgument(name='model', default_value=PathJoinSubstitution(['urdf', 'deltaxs_d800_6axis.urdf.xacro']), description='Path to robot urdf file relative to urdf_tutorial package')
     ld.add_action(model_arg)
 
     package_arg = DeclareLaunchArgument(name='package', default_value=package_name, description='Path to package with urdf_file')
