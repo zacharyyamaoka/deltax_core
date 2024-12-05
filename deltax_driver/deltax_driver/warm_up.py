@@ -10,9 +10,9 @@ else:
     print("Couldn't Connect")
     sys.exit(1)
 
-deltax.sendGcode('M100 A1 B10')
-deltax.sendGcode('G28')
-deltax.wait_for_robot_response()
+# deltax.sendGcode('M100 A1 B10')
+# deltax.sendGcode('G28')
+# deltax.wait_for_robot_response()
 
 deltax.sendGcode("IsDelta")
 deltax.wait_for_robot_response()
