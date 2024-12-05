@@ -143,91 +143,98 @@ class DeltaX():
 
     def __response_handling(self, response):
 
-        response = response.replace('\n', '')
-        response = response.replace('\r', '')
+        try:
+            response = response.replace('\n', '')
+            response = response.replace('\r', '')
 
-        if response.startswith("Position:"):
-            # Use print with `end=''` to stay on the same line for Position responses
-            print(f"\r<< {response.ljust(80)}", end='', flush=True)
-            self.__same_line = True
-        else:
-            # Print a new line for non-Position responses
-            if self.__same_line:
-                print() 
-                self.__same_line = False
-            print("<<", response)
-
-        self.__latest_response = response
-        if response == 'Ok':
-            self.__remote_feedback_queue(DeltaX.Gcode_G_M)
-        elif response == 'Init Success!':
-            pass
-        elif response == 'YesDelta':
-            self.__is_connected = True 
-            self.__is_connecting = False
-            self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-        elif response == 'Delta:Robot is stopped or paused!': # response to G code if e-break on
-            self.__remote_feedback_queue(DeltaX.Gcode_G_M)
-        else:
-            if response.find(':') > 0:
-                key_response = response.split(':')[0]
-                value_response = response.split(':')[1]
-                if key_response == "Unknown":
-                    self.__gcode_state = DeltaX.ERROR
-                    self.__remote_feedback_queue(DeltaX.Gcode_None)
-                    pass
-                elif key_response == "Angle":
-                    _list_angle = value_response.split(',')
-                    if len(_list_angle) > 2:
-                        self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-                        for index in range(0, len(_list_angle)):
-                            self.__real_angle[index] = float(_list_angle[index])
-                elif key_response == "Position":
-                    _list_position = value_response.split(',')
-                    if len(_list_position) > 2:
-                        self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-                        for index in range(0, len(_list_position)):
-                            self.__real_position[index] = float(_list_position[index])
-                elif response[0] == "F" or response[0] == "W" or response[0] == "U" or response[0] == "V":
-                    _list_parameter = response.split(' ')
-                    if len(_list_parameter) > 4:
-                        self.__remote_feedback_queue(DeltaX.Gcode_G_M)
-                        for index in range(0, len(_list_parameter)):
-                            __value = _list_parameter[index].split(':')[1]
-                            if response[0] == "F":
-                                self.__parameter[index] = float(__value)
-                            elif response[0] == "W":
-                                self.__w_parameter[index] = float(__value)
-                            elif response[0] == "U":
-                                self.__u_parameter[index] = float(__value)
-                            elif response[0] == "V":
-                                self.__v_parameter[index] = float(__value)
-                elif key_response == "IMEI":
-                    self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-                elif key_response == "HTS":
-                    self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-                elif key_response == "Model": # last return line of Infor
-                    self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-
-                elif key_response == "Delta": # return for Emergency:
-                    self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-
-                    if value_response == "Stop" or value_response == "Pause":
-                        self.__feedback_queue.clear()
+            if response.startswith("Position:"):
+                # Use print with `end=''` to stay on the same line for Position responses
+                print(f"\r<< {response.ljust(80)}", end='', flush=True)
+                self.__same_line = True
             else:
-                if response[0] == "I":
-                    self.__remote_feedback_queue(DeltaX.Gcode_G_M)
-                    self.__i_input[int(response[1])] = int(response[4:])
-                elif response[0] == "A":
-                    self.__remote_feedback_queue(DeltaX.Gcode_G_M)
-                    self.__a_input[int(response[1])] = int(response[4:])
-                else :
-                    _list_position = response.split(',')
-                    if len(_list_position) > 2:
+                # Print a new line for non-Position responses
+                if self.__same_line:
+                    print() 
+                    self.__same_line = False
+                print("<<", response)
+
+            self.__latest_response = response
+            if response == 'Ok':
+                self.__remote_feedback_queue(DeltaX.Gcode_G_M)
+            elif response == 'Init Success!':
+                pass
+            elif response == 'YesDelta':
+                self.__is_connected = True 
+                self.__is_connecting = False
+                self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+            elif response == 'Delta:Robot is stopped or paused!': # response to G code if e-break on
+                self.__remote_feedback_queue(DeltaX.Gcode_G_M)
+            else:
+                if response.find(':') > 0:
+                    key_response = response.split(':')[0]
+                    value_response = response.split(':')[1]
+                    if key_response == "Unknown":
+                        self.__gcode_state = DeltaX.ERROR
+                        self.__remote_feedback_queue(DeltaX.Gcode_None)
+                        pass
+                    elif key_response == "Angle":
+                        _list_angle = value_response.split(',')
+                        if len(_list_angle) > 2:
+                            self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+                            for index in range(0, len(_list_angle)):
+                                self.__real_angle[index] = float(_list_angle[index])
+                    elif key_response == "Position":
+                        _list_position = value_response.split(',')
+                        if len(_list_position) > 2:
+                            self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+                            for index in range(0, len(_list_position)):
+                                self.__real_position[index] = float(_list_position[index])
+                    elif response[0] == "F" or response[0] == "W" or response[0] == "U" or response[0] == "V":
+                        _list_parameter = response.split(' ')
+                        if len(_list_parameter) > 4:
+                            self.__remote_feedback_queue(DeltaX.Gcode_G_M)
+                            for index in range(0, len(_list_parameter)):
+                                __value = _list_parameter[index].split(':')[1]
+                                if response[0] == "F":
+                                    self.__parameter[index] = float(__value)
+                                elif response[0] == "W":
+                                    self.__w_parameter[index] = float(__value)
+                                elif response[0] == "U":
+                                    self.__u_parameter[index] = float(__value)
+                                elif response[0] == "V":
+                                    self.__v_parameter[index] = float(__value)
+                    elif key_response == "IMEI":
                         self.__remote_feedback_queue(DeltaX.Gcode_Macro)
-                        for index in range(0, len(_list_position)):
-                            self.__real_position[index] = float(_list_position[index])
-                    
+                    elif key_response == "HTS":
+                        self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+                    elif key_response == "Model": # last return line of Infor
+                        self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+
+                    elif key_response == "Delta": # return for Emergency:
+                        self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+
+                        if value_response == "Stop" or value_response == "Pause":
+                            self.__feedback_queue.clear()
+                else:
+                    if response[0] == "I":
+                        self.__remote_feedback_queue(DeltaX.Gcode_G_M)
+                        self.__i_input[int(response[1])] = int(response[4:])
+                    elif response[0] == "A":
+                        self.__remote_feedback_queue(DeltaX.Gcode_G_M)
+                        self.__a_input[int(response[1])] = int(response[4:])
+                    else :
+                        _list_position = response.split(',')
+
+                        if len(_list_position) == 3: # G93 - Get Current Position in World Frame
+                            self.__remote_feedback_queue(DeltaX.Gcode_G_M)
+
+                        if len(_list_position) > 3:
+                            self.__remote_feedback_queue(DeltaX.Gcode_Macro)
+                            for index in range(0, len(_list_position)):
+                                self.__real_position[index] = float(_list_position[index])
+        except Exception as e: 
+            print(e)
+
     def __send_gcode_to_robot(self, data):
         if self.__same_line:
             print() 
