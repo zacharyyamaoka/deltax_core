@@ -12,7 +12,7 @@ from tf2_ros import TransformBroadcaster, TransformStamped
 from geometry_msgs.msg import Quaternion
 
 from deltax_driver.deltax_kinematic import Kinematic
-from deltax_driver.deltax_robot_interface import DeltaXRobotInterface
+from deltax_driver.robot import DeltaX
 
 """
     Main Script for communicating with Robot
@@ -53,7 +53,9 @@ class DeltaXRobotStatesPublisher(object):
     def __run(self):
         while self.__keep_running:   
             #rclpy.spin_once(self.__node)        
-            [x, y, z] = self.robot_interface.get_position()
+            # [x, y, z] = self.robot_interface.get_position()
+            [x, y, z, w, u, v] = self.robot_interface.position()
+
             self.deltaxs_kinematic.inverse(x, y, z)
             theta1, theta2, theta3 = self.deltaxs_kinematic.get_theta()
             [ball_top1, ball_top2, ball_top3, re12, re34, re56, re_ball, ball_moving] = self.deltaxs_kinematic.get_component_state()
@@ -97,15 +99,18 @@ def main():
     rclpy.init()
     node = rclpy.create_node('deltax_node')
      
-    deltax = DeltaXRobotInterface(port = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
+    deltax = DeltaX(port = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
     if deltax.connect():
         print ("connected")
-        deltax.send_gcode_to_robot('M100 A1 B10')
-        deltax.send_gcode_to_robot('Position')
-        deltax.send_gcode_to_robot('G28')
+        deltax.sendGcode('M100 A1 B10')
+        deltax.sendGcode('Position')
+        deltax.sendGcode('G28')
 
-        # deltax.send_gcode_to_robot('G0 F20 A20')
-        deltax.send_gcode_to_robot('G0 Z-780')
+
+
+        # M210 F500 A500 #config theta
+        # deltax.sendGcode('G0 F500 A500')
+        # deltax.sendGcode('G0 Z-780')
 
     else:
         print("Couldn't Connect")
@@ -120,7 +125,7 @@ def main():
     while rclpy.ok():
         rclpy.spin_once(node)
         
-        if deltax.is_moving() == False:
+        if deltax.isResponded() == False: # If there are still commands to execute then just wait
             continue
 
         if rever == True:
@@ -130,8 +135,7 @@ def main():
             rever = True
             gcocde = "G0 X100 Y100  Z-750 W0 U0 V0  F500 A500"
 
-        deltax.send_gcode_to_robot(gcocde)
-
+        deltax.sendGcode(gcocde)
 
 if __name__ == '__main__':
     main()
