@@ -55,6 +55,7 @@ class DeltaXRobotStatesPublisher(object):
             #rclpy.spin_once(self.__node)        
             # [x, y, z] = self.robot_interface.get_position()
             [x, y, z, w, u, v] = self.robot_interface.position()
+            print(x, y, z, w, u, v)
 
             self.deltaxs_kinematic.inverse(x, y, z)
             theta1, theta2, theta3 = self.deltaxs_kinematic.get_theta()
@@ -102,6 +103,11 @@ def main():
     deltax = DeltaX(port = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
     if deltax.connect():
         print ("connected")
+        deltax.sendGcode('M210 F3000 A500 S0 E0')
+        deltax.sendGcode('M211 F360 A1000 S0 E0')
+        deltax.sendGcode('M212 F200 A1000 S0 E0')
+        deltax.sendGcode('M213 F100 A1000 S0 E0')
+
         deltax.sendGcode('M100 A1 B10')
         deltax.sendGcode('Position')
         deltax.sendGcode('G28')
@@ -131,10 +137,10 @@ def main():
 
         if rever == True:
             rever = False
-            gcocde = "G0 X-100 Y-100  Z-750 W0 U0 V0 S0 E0 F3000 A500"
+            gcocde = "G0 X-100 Y-100  Z-750 W20 U20 V20 S0 E0 A500"
         else:
             rever = True
-            gcocde = "G0 X100 Y100  Z-750 W0 U0 V0 S0 E0 F3000 A500"
+            gcocde = "G0 X100 Y100  Z-750 W0 U0 V0 S0 E0 A500"
 
         deltax.sendGcode(gcocde)
 

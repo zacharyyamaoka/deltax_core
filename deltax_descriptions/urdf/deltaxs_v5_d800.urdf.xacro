@@ -22,7 +22,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/base_link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/base_link.STL" />
       </geometry>
       <material name="LightGrey">
         <color rgba="0.79216 0.81961 0.93333 1" />
@@ -32,7 +32,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/base_link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/base_link.STL" />
       </geometry>
     </collision>
 
@@ -49,7 +49,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/rf1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf1_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -57,7 +57,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/rf1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf1_Link.STL" />
       </geometry>
     </collision>
 
@@ -80,7 +80,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_top1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top1_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -88,7 +88,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_top1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top1_Link.STL" />
       </geometry>
     </collision>
 
@@ -112,7 +112,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re1_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -120,7 +120,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re1_Link.STL" />
       </geometry>
     </collision>
 
@@ -144,7 +144,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_bot1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot1_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -152,7 +152,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_bot1_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot1_Link.STL" />
       </geometry>
     </collision>
 
@@ -176,7 +176,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_moving_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_moving_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -184,7 +184,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_moving_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_moving_Link.STL" />
       </geometry>
     </collision>
 
@@ -212,7 +212,7 @@
     <visual>
       <origin xyz="0 0 -0.01" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/axis4_origin.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/axis4_origin.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -232,7 +232,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/axis5_origin.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/axis5_origin.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -251,7 +251,7 @@
     <visual>
       <origin xyz="-0.014 0 -0.00268" rpy="-1.57 0 3.14" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/axis6_origin.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/axis6_origin.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -271,7 +271,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 1.57 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/axis6_flange_origin.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/axis6_flange_origin.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -301,7 +301,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_bot2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot2_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -309,7 +309,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_bot2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot2_Link.STL" />
       </geometry>
     </collision>
 
@@ -333,7 +333,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_bot3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot3_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -341,7 +341,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_bot3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot3_Link.STL" />
       </geometry>
     </collision>
 
@@ -369,7 +369,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re2_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -377,7 +377,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re2_Link.STL" />
       </geometry>
     </collision>
 
@@ -401,7 +401,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/rf2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf2_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -409,7 +409,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/rf2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf2_Link.STL" />
       </geometry>
     </collision>
 
@@ -433,7 +433,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_top2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top2_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -441,7 +441,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_top2_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top2_Link.STL" />
       </geometry>
     </collision>
 
@@ -465,7 +465,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re3_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -473,7 +473,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re3_Link.STL" />
       </geometry>
     </collision>
 
@@ -497,7 +497,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re4_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re4_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -505,7 +505,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re4_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re4_Link.STL" />
       </geometry>
     </collision>
 
@@ -529,7 +529,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/rf3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf3_Link.STL" />
       </geometry>
       <material name="LightGrey">
         <color rgba="1 1 1 1" />
@@ -539,7 +539,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/rf3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf3_Link.STL" />
       </geometry>
     </collision>
 
@@ -563,7 +563,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_top3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top3_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -571,7 +571,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/ball_top3_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top3_Link.STL" />
       </geometry>
     </collision>
 
@@ -595,7 +595,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re5_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re5_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -603,7 +603,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re5_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re5_Link.STL" />
       </geometry>
     </collision>
 
@@ -627,7 +627,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re6_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re6_Link.STL" />
       </geometry>
       <material name="LightGrey"/>
     </visual>
@@ -635,7 +635,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://deltax_descriptions/meshes/re6_Link.STL" />
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re6_Link.STL" />
       </geometry>
     </collision>
 
