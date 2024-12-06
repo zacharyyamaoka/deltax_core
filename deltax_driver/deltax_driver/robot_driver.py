@@ -3,7 +3,7 @@
 import threading
 import rclpy
 import time
-from math import sin, cos, pi
+from math import sin, cos, pi, radians
 
 from rclpy.node import Node
 from rclpy.qos import QoSProfile
@@ -55,7 +55,6 @@ class DeltaXRobotStatesPublisher(object):
             #rclpy.spin_once(self.__node)        
             # [x, y, z] = self.robot_interface.get_position()
             [x, y, z, w, u, v] = self.robot_interface.position()
-            print(x, y, z, w, u, v)
 
             self.deltaxs_kinematic.inverse(x, y, z)
             theta1, theta2, theta3 = self.deltaxs_kinematic.get_theta()
@@ -68,12 +67,14 @@ class DeltaXRobotStatesPublisher(object):
                                     'ball_top1', 'ball_top2', 'ball_top3',
                                     're1', 're2', 're3',
                                     're4', 're5', 're6',
-                                    're_ball', 'ball_moving']
+                                    're_ball', 'ball_moving',
+                                    'axis4', 'axis5', 'axis6']
             self.joint_state.position = [theta1, theta2, theta3,
                                         ball_top1, ball_top2, ball_top3,
                                         re12, re12, re34,
                                         re34, re56, re56,
-                                        re_ball, ball_moving]
+                                        re_ball, ball_moving,
+                                        radians(w), radians(u), radians(v)]
 
             self.odom_trans.header.stamp = now.to_msg()
             self.odom_trans.transform.translation.x = 0.
@@ -137,7 +138,7 @@ def main():
 
         if rever == True:
             rever = False
-            gcocde = "G0 X-100 Y-100  Z-750 W20 U20 V20 S0 E0 A500"
+            gcocde = "G0 X-100 Y-100  Z-750 W45 U45 V45 S0 E0 A500"
         else:
             rever = True
             gcocde = "G0 X100 Y100  Z-750 W0 U0 V0 S0 E0 A500"
