@@ -114,6 +114,7 @@ def main():
 
     else:
         print("Couldn't Connect")
+        return 0
 
     
     deltax_states_publisher = DeltaXRobotStatesPublisher(deltax, node)

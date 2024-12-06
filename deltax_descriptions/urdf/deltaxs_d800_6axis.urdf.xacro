@@ -63,7 +63,7 @@
     <origin xyz="0 -0.147724318643352 -0.188800000000002" rpy="1.5707963267949 -0.0428553915167107 -1.5707963267949" />
     <parent link="base_link" />
     <child link="rf1_Link" />
-    <axis xyz="0 0 1" />
+    <axis xyz="0 0 -1" />
   </joint>
 
   <link name="ball_top1_Link">
@@ -406,7 +406,7 @@
     <origin xyz="0.127933012701894 0.0738621593216779 -0.188799999999998" rpy="1.5707963267949 -0.0428553915167046 0.523598775598297" />
     <parent link="base_link" />
     <child link="rf2_Link" />
-    <axis xyz="0 0 1" />
+    <axis xyz="0 0 -1" />
   </joint>
 
   <link name="ball_top2_Link">
@@ -533,7 +533,7 @@
     <origin xyz="-0.127933012701892 0.0738621593216777 -0.1888" rpy="1.5707963267949 -0.042855391516705 2.61799387799149" />
     <parent link="base_link" />
     <child link="rf3_Link" />
-    <axis xyz="0 0 1" />
+    <axis xyz="0 0 -1" />
   </joint>
 
   <link name="ball_top3_Link">
