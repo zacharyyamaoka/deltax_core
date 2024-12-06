@@ -3,6 +3,8 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
+# ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_v4_d800.urdf'
+
 # ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_v5_d800.urdf'
 
 # ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_d800_6axis.urdf.xacro'
