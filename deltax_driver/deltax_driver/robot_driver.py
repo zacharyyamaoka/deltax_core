@@ -104,6 +104,8 @@ def main():
     deltax = DeltaX(port = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
     if deltax.connect():
         print ("connected")
+        deltax.sendGcode('Emergency:Resume')
+
         deltax.sendGcode('M210 F3000 A500 S0 E0')
         deltax.sendGcode('M211 F360 A1000 S0 E0')
         deltax.sendGcode('M212 F200 A1000 S0 E0')
