@@ -9,6 +9,8 @@ from launch_ros.substitutions import FindPackageShare
 
 # ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_d800_6axis.urdf.xacro'
 
+# ros2 launch deltax_descriptions display.launch.py model:='urdf/deltaxs_d800_6axis_v2.urdf.xacro'
+
 def generate_launch_description():
     ld = LaunchDescription()
 

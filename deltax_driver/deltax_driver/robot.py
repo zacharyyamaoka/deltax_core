@@ -63,7 +63,7 @@ class DeltaX():
         self.__w_parameter = [400.0, 8000.0, 1000000.0, 20.0, 20.0]
         self.__u_parameter = [400.0, 8000.0, 1000000.0, 20.0, 20.0]
         self.__v_parameter = [400.0, 8000.0, 1000000.0, 20.0, 20.0]
-        self.timeout = 15
+        self.timeout = 5
         self.__connect_timeout = 3
         self.__is_connecting = False
         self.__last_time = time.time()
