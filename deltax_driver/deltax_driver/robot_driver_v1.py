@@ -4,12 +4,14 @@ import threading
 import rclpy
 import time
 from math import sin, cos, pi, radians
+from rclpy.executors import SingleThreadedExecutor
 
 from rclpy.node import Node
 from rclpy.qos import QoSProfile
 from sensor_msgs.msg import JointState
 from tf2_ros import TransformBroadcaster, TransformStamped
 from geometry_msgs.msg import Quaternion
+from std_msgs.msg import String
 
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
@@ -23,6 +25,9 @@ from deltax_driver.robot import DeltaX
     1. Creates a DeltaXRobotInterface object that is used to continually read from robot and write new commands
     2. Uses timer loop and every x sec. reads the current XYZ from the DeltaXRobotInterface, calculates the other joints using a Kinematic object
        and publishes the result
+
+    ros2 topic pub -1 /bam_BAMGPU/gcode std_msgs/msg/String "data: 'G28'"
+
 """
 
 class DeltaXRobotStatesPublisher(object):
@@ -110,70 +115,66 @@ def euler_to_quaternion(roll, pitch, yaw):
     qw = cos(roll/2) * cos(pitch/2) * cos(yaw/2) + sin(roll/2) * sin(pitch/2) * sin(yaw/2)
     return Quaternion(x=qx, y=qy, z=qz, w=qw)
 
+class RobotDriver(Node):
+    def __init__(self):
+        super().__init__("robot_driver", namespace="/bam_BAMGPU",  cli_args=["--ros-args", "-r", "/tf:=tf", "-r", "/tf_static:=tf_static"])
 
-def main():
-    #deltax_driver_node = Deltax_Driver_Node()
-    #rclpy.spin(deltax_driver_node)
-    rclpy.init()
-    node = rclpy.create_node('deltax_node', namespace="bam_BAMGPU", cli_args=["--ros-args", "-r", "/tf:=tf", "-r", "/tf_static:=tf_static"])
-    # node = rclpy.create_node('deltax_node', namespace="bam_BAMGPU")
+        self.path = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00"
+        self.deltax = DeltaX(port = self.path)
 
-    deltax = DeltaX(port = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
-    if deltax.connect():
-        print ("connected")
-        # deltax.sendGcode('Emergency:Reset')
+        if self.deltax.connect():
+            self.get_logger().info(f"Connected to Robot: {self.path}")
+            # self.deltax.sendGcode('Emergency:Reset')
+            self.deltax.sendGcode('M210 F3000 A500 S0 E0')
+            self.deltax.sendGcode('M211 F360 A1000 S0 E0')
+            self.deltax.sendGcode('M212 F200 A1000 S0 E0')
+            self.deltax.sendGcode('M213 F100 A1000 S0 E0')
 
-        deltax.sendGcode('M210 F3000 A500 S0 E0')
-        deltax.sendGcode('M211 F360 A1000 S0 E0')
-        deltax.sendGcode('M212 F200 A1000 S0 E0')
-        deltax.sendGcode('M213 F100 A1000 S0 E0')
-
-        deltax.sendGcode('M100 A1 B10')
-        deltax.sendGcode('Position')
-        deltax.sendGcode('G28')
-
-    else:
-        print("Couldn't Connect")
-        return 0
-
-    
-    deltax_states_publisher = DeltaXRobotStatesPublisher(deltax, node)
-    deltax_states_publisher.start()
-    #rclpy.spin(node)
+            self.deltax.sendGcode('M60 P270 Q-180')
 
 
-    print("Searching for TF")
+            self.deltax.sendGcode('M100 A1 B10')
+            self.deltax.sendGcode('Position')
+            self.deltax.sendGcode('G28')
 
-    tf_buffer = Buffer()
-    tf_listener = TransformListener(tf_buffer, node, spin_thread=False)
-
-    future = tf_buffer.wait_for_transform_async('base_link','rf1_Link',rclpy.time.Time())
-    rclpy.spin_until_future_complete(node, future)
-
-    print("TFs Loaded")
-    rever = True
-
-    while rclpy.ok():
-        rclpy.spin_once(node)
-        
-        if deltax.isResponded() == False: # If there are still commands to execute then just wait
-            continue
-
-        if rever == True:
-            rever = False
-            gcocde = "G0 X0 Y-100  Z-750 W170 U0 V0 S0 E0 A50"
         else:
-            rever = True
-            gcocde = "G0 X0 Y100  Z-750 W170 U0 V0 S0 E0 A50"
+            self.get_logger().info(f"Could not Connect To Robot: {self.path}")
 
-        # gcocde = "G0 X0 Y0  Z-750 W0 U0 V-180 S0 E0 A500"
-        transform_msg = tf_buffer.lookup_transform('base_link','rf1_Link',rclpy.time.Time())
-        pos = transform_msg.transform.translation
-        print()
-        print(f"TF: x: {round(pos.x*1000,2)}, y: {round(pos.y*1000,2)}, z: {round(pos.z*1000,2)}")
-        deltax.sendGcode(gcocde)
 
-if __name__ == '__main__':
+
+        self.deltax_states_publisher = DeltaXRobotStatesPublisher(self.deltax, self)
+        self.deltax_states_publisher.start()
+        
+        self.gcode_sub = self.create_subscription(String, 'gcode', self.gcode_callback, 1)
+
+        tf_buffer = Buffer()
+        tf_listener = TransformListener(tf_buffer, self, spin_thread=False)
+
+        future = tf_buffer.wait_for_transform_async('base_link','rf1_Link',rclpy.time.Time())
+        rclpy.spin_until_future_complete(self, future)
+
+        # transform_msg = tf_buffer.lookup_transform('base_link','rf1_Link',rclpy.time.Time())
+        # pos = transform_msg.transform.translation
+
+    def gcode_callback(self, msg):
+
+        gcode_command = msg.data
+        if self.deltax and self.deltax.is_connected():
+            self.deltax.sendGcode(gcode_command)
+        else:
+            self.get_logger().error("Robot is not connected. Cannot send GCode.")
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = RobotDriver()
+
+    executor = SingleThreadedExecutor()
+    executor.add_node(node)
+    executor.spin()
+
+    rclpy.shutdown()
+    exit(0)
+
+
+if __name__ == "__main__":
     main()
-    
-
