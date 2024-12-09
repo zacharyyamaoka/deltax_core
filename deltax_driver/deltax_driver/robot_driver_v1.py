@@ -54,7 +54,7 @@ class DeltaXRobotStatesPublisher(object):
         self.__thread = None
         self.__keep_running = False
 
-        self.__loop_rate = self.__node.create_rate(1000)
+        self.__loop_rate = self.__node.create_rate(100)
 
     def start(self):
         self.__keep_running = True

@@ -30,17 +30,29 @@ last_time = time.time()
 idx = -1
 while True:
 
-    now = time.time()
-    if (now - last_time) > 0.5:
-        last_time = now
-        idx += 1
-        if idx >= n:
-            print("Done Sending GCODE")
-            break
 
-        msg = String()
-        msg.data = lines[idx]
-        print(">> ", msg.data)
-        gcode_pub.publish(msg)
+    user = input("Press Enter to Send Next GCODE")
+    idx += 1
+    if idx >= n:
+        print("Done Sending GCODE")
+        break
+
+    msg = String()
+    msg.data = lines[idx]
+    print(">> ", msg.data)
+    gcode_pub.publish(msg)
+    
+    # now = time.time()
+    # if (now - last_time) > 0.5:
+    #     last_time = now
+    #     idx += 1
+    #     if idx >= n:
+    #         print("Done Sending GCODE")
+    #         break
+
+    #     msg = String()
+    #     msg.data = lines[idx]
+    #     print(">> ", msg.data)
+    #     gcode_pub.publish(msg)
 
     time.sleep(0.1)
