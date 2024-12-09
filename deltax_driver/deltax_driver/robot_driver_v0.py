@@ -127,12 +127,16 @@ def main():
         deltax.sendGcode('M211 F360 A1000 S0 E0')
         deltax.sendGcode('M212 F200 A1000 S0 E0')
         deltax.sendGcode('M213 F100 A1000 S0 E0')
+        deltax.sendGcode('M60 P270 Q-180')
+        deltax.sendGcode('M62 P90 Q-90')
 
+         
+        deltax.sendGcode('M206 v20')
 
         deltax.sendGcode('G90') # Absolute Mode
         deltax.sendGcode('M100 A1 B10') # Stream Position
         deltax.sendGcode('Position')
-        # deltax.sendGcode('G28')
+        deltax.sendGcode('G28')
 
     else:
         print("Couldn't Connect")
@@ -163,10 +167,10 @@ def main():
 
         if rever == True:
             rever = False
-            gcocde = "G0 X0 Y-100 Z-800 W0 U0 V0 S0 E0 A50"
+            gcocde = "G0 X0 Y-100 Z-800 W0 U0 V90 S0 E0 A50"
         else:
             rever = True
-            gcocde = "G0 X0 Y100 Z-800 W0 U0 V0 S0 E0 A50"
+            gcocde = "G0 X0 Y100 Z-800 W0 U0 V-90 S0 E0 A50"
 
         # gcocde = "G0 X0 Y0  Z-750 W0 U0 V-180 S0 E0 A500"
         transform_msg = tf_buffer.lookup_transform('base_link','rf1_Link',rclpy.time.Time())

@@ -82,12 +82,13 @@ class DeltaXRobotStatesPublisher(object):
                                     're4', 're5', 're6',
                                     're_ball', 'ball_moving',
                                     'axis4', 'axis5', 'axis6']
+            v0 = 25
             self.joint_state.position = [theta1, theta2, theta3,
                                         ball_top1, ball_top2, ball_top3,
                                         re12, re12, re34,
                                         re34, re56, re56,
                                         re_ball, ball_moving,
-                                        radians(w), radians(u), radians(v)]
+                                        radians(w), radians(u), radians(v + v0)]
 
             self.tf_world.header.stamp = now.to_msg()
             self.tf_world.transform.translation.x = 0.
@@ -100,7 +101,7 @@ class DeltaXRobotStatesPublisher(object):
             self.tf_xyz.transform.translation.x = x/1000 
             self.tf_xyz.transform.translation.y = y/1000 -0.034641
             self.tf_xyz.transform.translation.z = z/1000
-            self.tf_xyz.transform.rotation = euler_to_quaternion(0., pi/2, 0.) # roll,pitch,yaw
+            self.tf_xyz.transform.rotation = euler_to_quaternion(0., pi/2, pi) # roll,pitch,yaw
 
             self.joint_pub.publish(self.joint_state)
             # self.broadcaster.sendTransform(self.tf_world)

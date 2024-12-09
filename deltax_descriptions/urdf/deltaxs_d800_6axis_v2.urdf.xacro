@@ -209,7 +209,7 @@
 
   <link name="xyz_link">
       <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 ${pi}" />
       <geometry>
         <mesh filename="package://deltax_descriptions/meshes/6_dof/ball_moving_Link.STL" />
       </geometry>
@@ -219,7 +219,7 @@
 
 
   <joint name="floating_joint" type="floating">
-    <origin xyz="0 -0.034641 -0.75" rpy="0 ${pi/2} 0" />
+    <origin xyz="0 -0.034641 -0.75" rpy="0 0 ${pi/2}" />
     <parent link="base_link" />
     <child link="xyz_link" />
   </joint>
@@ -250,7 +250,7 @@
   </link>
 
   <joint name="axis4" type="continuous">
-    <origin xyz="-0.0005 0.034641 0" rpy="1.5708 -1.5562 -1.5708" />
+    <origin xyz="0.0005 -0.034641 0" rpy="1.5708 -1.5562 -1.5708" />
     <!-- <parent link="ball_moving_Link" /> -->
     <parent link="xyz_link" />
     <child link="axis4_Link" />
