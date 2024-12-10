@@ -43,10 +43,11 @@ class DeltaX():
     Printer = 4
     Custom = 5
 
-    def __init__(self, port = "None", baudrate = 115200, model = DeltaX_S):
+    def __init__(self, node, port, baudrate = 115200, model = DeltaX_S):
         self.comport = port
         self.baudrate = baudrate
         self.model = model
+        self.node = node
         self.__serial = serial.Serial()
         self.__read_thread = None
         self.__is_connected = False
@@ -79,7 +80,7 @@ class DeltaX():
 
         try:
             self.__serial.open()
-        except Exception as e: print(e)
+        except Exception as e: self.node.get_logger().error(e)
         
         if self.__serial.isOpen():
             self.__feedback_queue.clear()
@@ -98,7 +99,7 @@ class DeltaX():
         
         try:
             self.__serial.close()
-        except Exception as e: print(e)
+        except Exception as e: self.node.get_logger().error(e)
 
 
     def is_connected(self):
@@ -115,7 +116,7 @@ class DeltaX():
             else:
                 if len(self.__feedback_queue) > 0:
                     if time.time() - self.__last_time > self.timeout:
-                        print("Timed Out")
+                        self.node.get_logger().error("Timed Out")
                         self.__gcode_state = DeltaX.NO_REPLY
                         self.__feedback_queue.clear()
                 else:
@@ -124,7 +125,7 @@ class DeltaX():
             time.sleep(0.002)
             try:
                 responst = ser.readline().decode()
-            except Exception as e: print(e)
+            except Exception as e: self.node.get_logger().error(e)
 
             if responst != "":
                 self.__last_time = time.time()
@@ -150,13 +151,15 @@ class DeltaX():
             if response.startswith("Position:"):
                 # Use print with `end=''` to stay on the same line for Position responses
                 print(f"\r<< {response.ljust(80)}", end='', flush=True)
+                # self.node.get_logger().info(f"\r<< {response.ljust(80)}")
                 self.__same_line = True
             else:
                 # Print a new line for non-Position responses
                 if self.__same_line:
-                    print() 
+                    print()
                     self.__same_line = False
-                print("<<", response)
+                print(f"<< {response}")
+                # self.node.get_logger().info(f"<< {response}")
 
             self.__latest_response = response
             if response == 'Ok':
@@ -233,13 +236,14 @@ class DeltaX():
                             for index in range(0, len(_list_position)):
                                 self.__real_position[index] = float(_list_position[index])
         except Exception as e: 
-            print(e)
+            self.node.get_logger().error(e)
 
     def __send_gcode_to_robot(self, data):
         if self.__same_line:
-            print() 
+            print()
             self.__same_line = False
-        print(">>", data)
+        print(f">> {data}")
+        # self.node.get_logger().info(f">> {data}")
         if self.__serial.isOpen() == False:
             return
         data = data + '\n'
@@ -286,7 +290,7 @@ class DeltaX():
     def syncMotionParameters(self, axis = AXIS_XYZ):
         """Using for DeltaX S. Get motion parameters from robot."""
         if self.model == DeltaX.DeltaX_V2:
-            print("syncMotionParameters: Using for DeltaX S")
+            self.node.get_logger().info("syncMotionParameters: Using for DeltaX S")
             return
 
         gcode_str = "M220 I"
@@ -297,7 +301,7 @@ class DeltaX():
     def motionParameters(self, axis = AXIS_XYZ):
         """Using for DeltaX S. Return motion parameters available in memory."""
         if self.model == DeltaX.DeltaX_V2:
-            print("motionParameters: Using for DeltaX S")
+            self.node.get_logger().info("motionParameters: Using for DeltaX S")
             return
 
         if axis == DeltaX.AXIS_XYZ:
@@ -342,7 +346,7 @@ class DeltaX():
     def syncInput(self, I = [], A = []):
         """Using for DeltaX S. Read digital and analog input signals from robot."""
         if self.model == DeltaX.DeltaX_V2:
-            print("syncInput: Using for DeltaX S")
+            self.node.get_logger().info("syncInput: Using for DeltaX S")
             return
 
         gcode_str = "M7"
@@ -359,7 +363,7 @@ class DeltaX():
     def getDigitalInput(self, I = []):
         """Using for DeltaX S. Return digital input signals available in memory."""
         if self.model == DeltaX.DeltaX_V2:
-            print("getDigitalInput: Using for DeltaX S")
+            self.node.get_logger().info("getDigitalInput: Using for DeltaX S")
             return
 
         if len(I) == 0:
@@ -372,7 +376,7 @@ class DeltaX():
     def getAnalogInput(self, A = []):
         """Using for DeltaX S. Return analog input signals available in memory."""
         if self.model == DeltaX.DeltaX_V2:
-            print("getAnalogInput: Using for DeltaX S")
+            self.node.get_logger().info("getAnalogInput: Using for DeltaX S")
             return
 
         if len(A) == 0:
@@ -385,7 +389,7 @@ class DeltaX():
     def setDO(self, D = [], P = [], value = OFF, mode = 8):
         """Using for DeltaX S. This is the command used to turn on or off the Delta X S robot's output pin."""
         if self.model == DeltaX.DeltaX_V2:
-            print("setDO: Using for DeltaX S")
+            self.node.get_logger().info("setDO: Using for DeltaX S")
             return
 
         if len(D) == 0 and len(P) == 0:
@@ -422,7 +426,7 @@ class DeltaX():
     def controlEndEffector(self, dir = CW, value = OFF):
         """Using for DeltaX V2. controlEndEffector is used to turn on or off the vacuum pump, laser, and close the gripper."""
         if self.model != DeltaX.DeltaX_V2:
-            print("controlEndEffector: Using for DeltaX V2")
+            self.node.get_logger().info("controlEndEffector: Using for DeltaX V2")
             return
 
         if value == DeltaX.OFF:
@@ -443,7 +447,7 @@ class DeltaX():
         """Using for DeltaX V2. Select the end effector for the delta robot."""
 
         if self.model != DeltaX.DeltaX_V2:
-            print("setEndEffector: Using for DeltaX V2")
+            self.node.get_logger().info("setEndEffector: Using for DeltaX V2")
             return
 
         gcode_str = 'M360 E'

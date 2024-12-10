@@ -118,10 +118,10 @@ def euler_to_quaternion(roll, pitch, yaw):
 
 class RobotDriver(Node):
     def __init__(self):
-        super().__init__("robot_driver", namespace="/bam_BAMGPU",  cli_args=["--ros-args", "-r", "/tf:=tf", "-r", "/tf_static:=tf_static"])
+        super().__init__("robot_driver")
 
         self.path = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00"
-        self.deltax = DeltaX(port = self.path)
+        self.deltax = DeltaX(node = self, port = self.path)
 
         if self.deltax.connect():
             self.get_logger().info(f"Connected to Robot: {self.path}")
