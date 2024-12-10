@@ -125,7 +125,7 @@ class RobotDriver(Node):
 
         if self.deltax.connect():
             self.get_logger().info(f"Connected to Robot: {self.path}")
-            # self.deltax.sendGcode('Emergency:Reset')
+            self.deltax.sendGcode('Emergency:Resume')
             self.deltax.sendGcode('M210 F3000 A500 S0 E0')
             self.deltax.sendGcode('M211 F360 A1000 S0 E0')
             self.deltax.sendGcode('M212 F200 A1000 S0 E0')
