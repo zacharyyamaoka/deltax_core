@@ -82,13 +82,12 @@ class DeltaXRobotStatesPublisher(object):
                                     're4', 're5', 're6',
                                     're_ball', 'ball_moving',
                                     'axis4', 'axis5', 'axis6']
-            v0 = 25
             self.joint_state.position = [theta1, theta2, theta3,
                                         ball_top1, ball_top2, ball_top3,
                                         re12, re12, re34,
                                         re34, re56, re56,
                                         re_ball, ball_moving,
-                                        radians(w), radians(u), radians(v + v0)]
+                                        radians(w), radians(u), radians(v)]
 
             self.tf_world.header.stamp = now.to_msg()
             self.tf_world.transform.translation.x = 0.
@@ -127,16 +126,18 @@ class RobotDriver(Node):
             self.get_logger().info(f"Connected to Robot: {self.path}")
             self.deltax.sendGcode('Emergency:Resume')
             self.deltax.sendGcode('M210 F3000 A500 S0 E0')
-            self.deltax.sendGcode('M211 F360 A1000 S0 E0')
-            self.deltax.sendGcode('M212 F200 A1000 S0 E0')
-            self.deltax.sendGcode('M213 F100 A1000 S0 E0')
+            self.deltax.sendGcode('M211 F360 A500 S0 E0')
+            self.deltax.sendGcode('M212 F200 A500 S0 E0')
+            self.deltax.sendGcode('M213 F100 A500 S0 E0')
 
             self.deltax.sendGcode('M60 P270 Q-180')
+            self.deltax.sendGcode('M62 H27.5')
 
 
             self.deltax.sendGcode('M100 A1 B10')
             self.deltax.sendGcode('Position')
             self.deltax.sendGcode('G28')
+            self.deltax.sendGcode('G0 W0 U0 V0')
 
         else:
             self.get_logger().info(f"Could not Connect To Robot: {self.path}")
