@@ -217,8 +217,8 @@
     </visual>
   </link>
 
-
   <joint name="floating_joint" type="floating">
+  <!-- <joint name="floating_joint" type="fixed"> -->
     <origin xyz="0 -0.034641 -0.75" rpy="0 0 ${pi/2}" />
     <parent link="base_link" />
     <child link="xyz_link" />
