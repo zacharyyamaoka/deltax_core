@@ -1,12 +1,10 @@
 
+# MAXIMAL ROTATION
 # Define Stations and primary axis
-# Xs = [-32, 0, 32]
-# Ys = [398, 380, 398]
 Xs = [-61, 0, 61]
 Ys = [395, 340, 395]
 Zs = [-880, -860, -880]
 Ws = [-60, 0, 60]
-
 # Define Hemisphere of rotation
 Us = [[30, 60],[45, 22.5, -22.5, -45],[-30, -60]]
 Vs = [45, 15, -15]

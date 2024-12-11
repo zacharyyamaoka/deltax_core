@@ -19,8 +19,9 @@ rclpy.init()
 node = rclpy.create_node('send_gcode')
 
 gcode_pub = node.create_publisher(String, "/bam_BAMGPU/gcode", 1)
-
 with open('/home/bam-gpu/bam_ws/src/deltax_core/deltax_driver/config/hand_eye_v2.gcode', 'r') as file:
+
+# with open('/home/bam-gpu/bam_ws/src/deltax_core/deltax_driver/config/limit_testing.gcode', 'r') as file:
     lines = file.readlines()
     n = len(lines)
     print("Number of GCODE lines: ", len(lines))

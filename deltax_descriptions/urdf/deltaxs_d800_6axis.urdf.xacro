@@ -209,7 +209,7 @@
         <mesh filename="package://deltax_descriptions/meshes/6_dof/ball_moving_Link.STL" />
       </geometry>
     </collision>
-  </link>
+  </link>l
 
   <joint name="ball_moving" type="continuous">
     <origin xyz="0 0.033373 0" rpy="-1.5708 -0.58245 0" />
