@@ -263,6 +263,10 @@ class DeltaX():
     
     def sendGcode(self, data):
         """Send gcode to robot."""
+
+        if data == "G28":
+            self.__send_gcode_to_robot("G0 W0 A50") # avoid spinning in wrong direction
+
         self.__send_gcode_to_robot(data)
 
     def wait_for_robot_response(self):

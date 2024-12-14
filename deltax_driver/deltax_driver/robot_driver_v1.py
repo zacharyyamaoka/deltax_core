@@ -100,7 +100,8 @@ class DeltaXRobotStatesPublisher(object):
             self.tf_xyz.transform.translation.x = x/1000 
             self.tf_xyz.transform.translation.y = y/1000 -0.034641
             self.tf_xyz.transform.translation.z = z/1000
-            self.tf_xyz.transform.rotation = euler_to_quaternion(0., pi/2, pi) # roll,pitch,yaw
+            # self.tf_xyz.transform.rotation = euler_to_quaternion(0., pi/2, pi) # roll,pitch,yaw
+            self.tf_xyz.transform.rotation = euler_to_quaternion(0., 0., 0.) # roll,pitch,yaw
 
             self.joint_pub.publish(self.joint_state)
             # self.broadcaster.sendTransform(self.tf_world)
@@ -130,12 +131,14 @@ class RobotDriver(Node):
             self.deltax.sendGcode('M212 F200 A500 S0 E0')
             self.deltax.sendGcode('M213 F100 A500 S0 E0')
 
-            self.deltax.sendGcode('M60 P270 Q-180')
+            self.deltax.sendGcode('M60 P179 Q-179')
             self.deltax.sendGcode('M62 H27.5')
 
 
+            self.deltax.sendGcode('M207 Z-935')
             self.deltax.sendGcode('M100 A1 B10')
             self.deltax.sendGcode('Position')
+            self.deltax.sendGcode('G0 X0 Y0 W0') #send W0 to zero before homing to avoid spinning wrong way, send X0Y0 to avoid hitting camera
             self.deltax.sendGcode('G28')
             self.deltax.sendGcode('G0 W0 U0 V0')
 
@@ -162,7 +165,10 @@ class RobotDriver(Node):
 
         gcode_command = msg.data
         if self.deltax and self.deltax.is_connected():
-            self.deltax.sendGcode(gcode_command)
+
+            commands = gcode_command.split(',')
+            for cmd in commands:
+                self.deltax.sendGcode(cmd)
         else:
             self.get_logger().error("Robot is not connected. Cannot send GCode.")
 

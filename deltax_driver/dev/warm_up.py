@@ -1,8 +1,12 @@
 from deltax_driver.robot import DeltaX
 import time
 import sys
+import rclpy
 
-deltax = DeltaX(port="/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
+rclpy.init()
+node = rclpy.create_node('send_gcode')
+
+deltax = DeltaX(node, port="/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
 
 if deltax.connect():
     print("Connected - Opening Terminal")
