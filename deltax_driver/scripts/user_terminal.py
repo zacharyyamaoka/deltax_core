@@ -2,6 +2,9 @@ from deltax_driver.robot import DeltaX
 import threading
 import time
 
+""" 
+    OBSOLETE, SEND FROM TERMINAL INSTEAD!
+"""
 def monitor_deltax_response(deltax):
     """Continuously monitor and print the most recent response from DeltaX."""
     while True:
@@ -12,6 +15,7 @@ def monitor_deltax_response(deltax):
         time.sleep(0.1)  # Prevent CPU overload with a short delay
 
 def main():
+
     deltax = DeltaX(port="/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00")
 
     if deltax.connect():
