@@ -23,9 +23,11 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
   deltax_driver/robot_driver_v1.py
-  deltax_driver/deltax_kinematic.py
-  deltax_driver/robot.py
+  deltax_driver/ros_driver.py
 
+  deltax_driver/deltax_kinematic.py
+  deltax_driver/serial_interface.py
+  
   # scripts/robot_manager_v1.py
   DESTINATION lib/${PROJECT_NAME}
 )

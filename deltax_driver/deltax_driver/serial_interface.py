@@ -4,6 +4,10 @@ import threading
 import time
 
 class DeltaX():
+
+    """
+        Python Serial Interface for DeltaX Robot
+    """
     CW = 0
     CCW = 1
     OFF = 0
@@ -191,7 +195,11 @@ class DeltaX():
                     if key_response == "Unknown":
                         self.__gcode_state = DeltaX.ERROR
                         self.__remote_feedback_queue(DeltaX.Gcode_None)
-                        pass
+                        
+                        # Doesn't work beacuse once command is sent, cannot be undone
+                        # if "outside" in value_response:
+                        #     self.__feedback_queue.clear() # don't execute any more gcodes
+ 
                     elif key_response == "Angle":
                         _list_angle = value_response.split(',')
                         if len(_list_angle) > 2:
@@ -284,7 +292,7 @@ class DeltaX():
     def wait_for_robot_response(self):
         """Wait for the robot to respond."""
         while len(self.__feedback_queue) != 0:
-            time.sleep(0.002)
+            time.sleep(0.01)
             pass
         return self.__gcode_state
     
