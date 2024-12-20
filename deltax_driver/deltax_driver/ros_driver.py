@@ -4,10 +4,11 @@ import threading
 import rclpy
 import time
 from math import sin, cos, pi, radians
-from rclpy.executors import SingleThreadedExecutor
+from rclpy.executors import MultiThreadedExecutor, SingleThreadedExecutor
+from rclpy.callback_groups import MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup
 
 from rclpy.node import Node
-from rclpy.qos import QoSProfile
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy, QoSPresetProfiles, qos_profile_default, qos_profile_sensor_data
 from sensor_msgs.msg import JointState
 from tf2_ros import TransformBroadcaster, TransformStamped
 from geometry_msgs.msg import Quaternion
@@ -18,16 +19,18 @@ from tf2_ros.transform_listener import TransformListener
 
 from deltax_driver.deltax_kinematic import Kinematic
 from deltax_driver.serial_interface import DeltaX
+# from deltax_msgs.action import RobotInterface
 
+# Keep library dependicies simple
+from tf_transformations import quaternion_from_euler
 
 class StatePublisher(object):
-    def __init__(self, robot_interface, node):
-        self.qos_profile = QoSProfile(depth=10)
+    def __init__(self, robot_interface, node: Node):
         self.robot_interface = robot_interface
         self.__node = node
-        
-        self.joint_pub = self.__node.create_publisher(JointState, 'joint_states', QoSProfile(depth=10))
-        self.broadcaster = TransformBroadcaster(self.__node, qos=QoSProfile(depth=10))
+
+        self.joint_pub = self.__node.create_publisher(JointState, 'joint_states', 10)
+        self.broadcaster = TransformBroadcaster(self.__node, 10)
 
         self.tf_world = TransformStamped()
         self.tf_world.header.frame_id = 'world'
@@ -41,82 +44,75 @@ class StatePublisher(object):
 
         self.deltaxs_kinematic = Kinematic()
         self.deltaxs_kinematic.set_robot_parameter(rd_rf = 291.77, rd_re = 736.00, rd_e = 120.00, rd_f = 511.74, rd_of = 179.00)
-        self.__thread = None
-        self.__keep_running = False
 
-        self.__loop_rate = self.__node.create_rate(100)
 
-    def start(self):
-        self.__keep_running = True
-        self.__thread = threading.Thread(name="StatePublisher",
-                                         target=self.__run)
-        self.__thread.daemon = True
-        self.__thread.start()
+    def run(self):
 
-    def __run(self):
-        while self.__keep_running:   
-            #rclpy.spin_once(self.__node)        
-            # [x, y, z] = self.robot_interface.get_position()
-            [x, y, z, w, u, v] = self.robot_interface.position()
+        [x, y, z, w, u, v] = self.robot_interface.position()
 
-            self.deltaxs_kinematic.inverse(x, y, z)
-            theta1, theta2, theta3 = self.deltaxs_kinematic.get_theta()
-            [ball_top1, ball_top2, ball_top3, re12, re34, re56, re_ball, ball_moving] = self.deltaxs_kinematic.get_component_state()
-            
-            now = self.__node.get_clock().now()
-            self.joint_state.header.stamp = now.to_msg()
-            
-            self.joint_state.name = ['theta1', 'theta2', 'theta3',
-                                    'ball_top1', 'ball_top2', 'ball_top3',
-                                    're1', 're2', 're3',
-                                    're4', 're5', 're6',
-                                    're_ball', 'ball_moving',
-                                    'axis4', 'axis5', 'axis6']
-            self.joint_state.position = [theta1, theta2, theta3,
-                                        ball_top1, ball_top2, ball_top3,
-                                        re12, re12, re34,
-                                        re34, re56, re56,
-                                        re_ball, ball_moving,
-                                        radians(w), radians(u), radians(v)]
+        self.deltaxs_kinematic.inverse(x, y, z)
+        theta1, theta2, theta3 = self.deltaxs_kinematic.get_theta()
+        [ball_top1, ball_top2, ball_top3, re12, re34, re56, re_ball, ball_moving] = self.deltaxs_kinematic.get_component_state()
+        
+        now = self.__node.get_clock().now()
+        self.joint_state.header.stamp = now.to_msg()
+        
+        self.joint_state.name = ['theta1', 'theta2', 'theta3',
+                                'ball_top1', 'ball_top2', 'ball_top3',
+                                're1', 're2', 're3',
+                                're4', 're5', 're6',
+                                're_ball', 'ball_moving',
+                                'axis4', 'axis5', 'axis6']
+        self.joint_state.position = [theta1, theta2, theta3,
+                                    ball_top1, ball_top2, ball_top3,
+                                    re12, re12, re34,
+                                    re34, re56, re56,
+                                    re_ball, ball_moving,
+                                    radians(w), radians(u), radians(v)]
 
-            self.tf_world.header.stamp = now.to_msg()
-            self.tf_world.transform.translation.x = 0.
-            self.tf_world.transform.translation.y = 0.
-            self.tf_world.transform.translation.z = 1.
-            self.tf_world.transform.rotation = \
-                euler_to_quaternion(0., 0., 0.) # roll,pitch,yaw
+        self.tf_world.header.stamp = now.to_msg()
+        self.tf_world.transform.translation.x = 0.
+        self.tf_world.transform.translation.y = 0.
+        self.tf_world.transform.translation.z = 1.
+        self.tf_world.transform.rotation = ros_quaternion(quaternion_from_euler(0., 0., 0.))
 
-            self.tf_xyz.header.stamp = now.to_msg()
-            self.tf_xyz.transform.translation.x = x/1000 
-            self.tf_xyz.transform.translation.y = y/1000 -0.034641
-            self.tf_xyz.transform.translation.z = z/1000
-            # self.tf_xyz.transform.rotation = euler_to_quaternion(0., pi/2, pi) # roll,pitch,yaw
-            self.tf_xyz.transform.rotation = euler_to_quaternion(0., 0., 0.) # roll,pitch,yaw
+        self.tf_xyz.header.stamp = now.to_msg()
+        self.tf_xyz.transform.translation.x = x/1000 
+        self.tf_xyz.transform.translation.y = y/1000 -0.034641
+        self.tf_xyz.transform.translation.z = z/1000
+        # self.tf_xyz.transform.rotation = euler_to_quaternion(0., pi/2, pi) # roll,pitch,yaw
+        self.tf_xyz.transform.rotation = ros_quaternion(quaternion_from_euler(0., 0., 0.))  
 
-            self.joint_pub.publish(self.joint_state)
-            # self.broadcaster.sendTransform(self.tf_world)
+        self.joint_pub.publish(self.joint_state)
+        # self.broadcaster.sendTransform(self.tf_world)
 
-            self.broadcaster.sendTransform([self.tf_xyz, self.tf_world])
-            self.__loop_rate.sleep()
+        self.broadcaster.sendTransform([self.tf_xyz, self.tf_world])
 
-def euler_to_quaternion(roll, pitch, yaw):
-    qx = sin(roll/2) * cos(pitch/2) * cos(yaw/2) - cos(roll/2) * sin(pitch/2) * sin(yaw/2)
-    qy = cos(roll/2) * sin(pitch/2) * cos(yaw/2) + sin(roll/2) * cos(pitch/2) * sin(yaw/2)
-    qz = cos(roll/2) * cos(pitch/2) * sin(yaw/2) - sin(roll/2) * sin(pitch/2) * cos(yaw/2)
-    qw = cos(roll/2) * cos(pitch/2) * cos(yaw/2) + sin(roll/2) * sin(pitch/2) * sin(yaw/2)
-    return Quaternion(x=qx, y=qy, z=qz, w=qw)
+
+def ros_quaternion(q):
+    return Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
 
 class RosDriver():
-    def __init__(self, node):
+    def __init__(self, node:Node):
         """
             Wraps serial interface with ROS I/O
         """
 
         self.node = node
         self.path = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00"
-        self.deltax = DeltaX(node = self.node, port = self.path)
+        self.deltax = DeltaX(port = self.path, use_thread = False)
+        self.state_pub = StatePublisher(self.deltax, self.node)
+
+        self.state_timer = self.node.create_timer(0.01, self.loop)
+        # self.serial_timer = self.node.create_timer(0.01, self.random_cb, self.driver_cb)
 
         if self.deltax.connect():
+            
+            while not self.deltax.is_connected():
+                rclpy.spin_once(self.node, timeout_sec=1) #careful that this is called before a real spin is called
+                self.node.get_logger().info(f"Waiting for Robot to Connect . . .")
+
+
             self.node.get_logger().info(f"Connected to Robot: {self.path}")
             self.deltax.sendGcode('Emergency:Resume')
             self.deltax.sendGcode('M210 F3000 A500 S0 E0')
@@ -138,11 +134,18 @@ class RosDriver():
         else:
             self.node.get_logger().error(f"Could not Connect To Robot: {self.path}")
 
-
-        self.deltax_states_publisher = StatePublisher(self.deltax, self.node)
-        self.deltax_states_publisher.start()
+        # gcode_qos = QoSProfile(
+        #         durability=QoSDurabilityPolicy.VOLATILE,
+        #         reliability=QoSReliabilityPolicy.RELIABLE,
+        #         history=QoSHistoryPolicy.KEEP_LAST,
+        #         depth=10,
+        #     )
         
-        self.gcode_sub = self.node.create_subscription(String, 'gcode', self.gcode_callback, 1)
+        self.gcode_sub = self.node.create_subscription(String, 'gcode', self.gcode_callback, 10)
+    
+    def loop(self):
+        self.deltax.serial_read()
+        self.state_pub.run()
 
     def send_gcode(self, gcode):
         self.deltax.sendGcode(gcode)

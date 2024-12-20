@@ -47,11 +47,11 @@ class DeltaX():
     Printer = 4
     Custom = 5
 
-    def __init__(self, port, baudrate = 115200, model = DeltaX_S, node = None):
+    def __init__(self, port, baudrate = 115200, model = DeltaX_S, use_thread = True):
         self.comport = port
         self.baudrate = baudrate
         self.model = model
-        self.node = node
+        self.use_thread = use_thread
         self.__serial = serial.Serial()
         self.__read_thread = None
         self.__is_connected = False
@@ -78,15 +78,7 @@ class DeltaX():
 
     def log(self, msg, type="info"):
 
-        if self.node == None:
-            print(msg)
-        else:
-            if type == "info":
-                self.node.get_logger().info(msg)
-            elif type == "error":
-                self.node.get_logger().error(msg)
-            else:
-                self.node.get_logger().info(msg)
+        print(msg)
 
     def connect(self):
         """Open comport and connect with robot."""
@@ -101,13 +93,17 @@ class DeltaX():
         if self.__serial.isOpen():
             self.__feedback_queue.clear()
             self.__send_gcode_to_robot('IsDelta')
-            self.__last_time = time.time()
             self.__is_connecting = True
-            self.__read_thread = threading.Thread(target=self.__serial_read_event, args=(self.__serial,))
-            self.__read_thread.daemon = True
-            self.__read_thread.start()
-            self.wait_for_robot_response()  
-        return self.__is_connected
+
+            if self.use_thread:
+                self.__read_thread = threading.Thread(target=self.__serial_read_event, args=(self.__serial,))
+                self.__read_thread.daemon = True
+                self.__read_thread.start()
+                self.wait_for_robot_response()  
+
+                return self.__is_connected
+
+        return self.__serial.isOpen()
 
     def disconnect(self):
         """Disconnect with robot."""
@@ -122,6 +118,40 @@ class DeltaX():
         """Return is robot connected."""
         return self.__is_connected
 
+    def serial_read(self):
+
+        """
+            If your not using a thread, then your application must call this function
+            at a high rate (+100hz) to read the serial buffer
+        """
+        if self.__is_connecting == True:
+            if time.time() - self.__last_time > self.__connect_timeout:
+                self.disconnect()
+                self.__is_connecting = False
+                self.__feedback_queue.clear()
+        else:
+            if len(self.__feedback_queue) > 0:
+                if time.time() - self.__last_time > self.timeout:
+                    self.log("Timed Out", 'error')
+                    self.__gcode_state = DeltaX.NO_REPLY
+                    self.__feedback_queue.clear()
+            else:
+                # If there is no commands in queue, than refresh last time
+                # Once there are commands in the queue, a non "" response must
+                # be recivied in order to refresh the last time
+                self.__last_time = time.time()
+
+        try:
+            responst = self.__serial.readline().decode()
+        except Exception as e: self.log(e,'error')
+
+        if responst != "":
+            self.__last_time = time.time()
+            self.__response_handling(responst)
+            responst = ""
+    
+
+        
     def __serial_read_event(self, ser):
         while ser.isOpen():
             if self.__is_connecting == True:

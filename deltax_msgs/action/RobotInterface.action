@@ -1,0 +1,15 @@
+# Request
+string gcode
+---
+
+# Result
+bool success
+int8 fault_code
+float64 motion_duration
+
+---
+# Feedback
+float64 distance_to_go
+float64 percent_complete
+int8 state
+
