@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="deltax_d800">
+
+<!-- Materials - START -->
+
+  <material name="LightGrey">
+    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+  </material>
+  
+  <material name="LightGreyClear">
+    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 0.5" />
+  </material>
+  
+
+  <material name="Red">
+    <color rgba="1 0 0 1" />
+  </material>
+<!-- Materials - END -->
+
+<!-- Serial Chain - START -->
+
+  <link name="base_link">
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="4.116" />
+      <inertia ixx="0.019013" ixy="-3.1198E-06" ixz="6.0397E-07" iyy="0.018987" iyz="-1.6736E-06" izz="0.033013" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/base_link.STL" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/base_link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <link name="rf1_Link">
+
+    <inertial>
+      <origin xyz="-0.000180025755014773 -0.095698641603588 -0.00334460441190246" rpy="0 0 0" />
+      <mass value="0.105839941889362" />
+      <inertia ixx="0.000251568598676522" ixy="-1.3190478298987E-07" ixz="-1.76570125670921E-11" iyy="2.49430023061273E-05" iyz="9.97256647574034E-07" izz="0.000257239396139277" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf1_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf1_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="theta1" type="continuous">
+    <origin xyz="0 -0.14772 -0.1908" rpy="-1.5708 -1.5279 1.5708" />
+    <parent link="base_link" />
+    <child link="rf1_Link" />
+    <axis xyz="0 0 -1" />
+  </joint>
+
+  <link name="ball_top1_Link">
+    <inertial>
+      <origin xyz="0 0 4.96483227560846E-15" rpy="0 0 0" />
+      <mass value="0.00403450389151663" />
+      <inertia ixx="5.68434704387569E-07" ixy="0" ixz="-6.99509969560986E-23" iyy="5.68434704387569E-07" iyz="1.26866599360354E-22" izz="4.2954616111995E-08" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top1_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top1_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="ball_top1" type="continuous">
+    <origin xyz="-0.0125000000000005 -0.291500000000001 0" rpy="0 0 2.51628974348087" />
+    <parent link="rf1_Link" />
+    <child link="ball_top1_Link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="re1_Link">
+
+    <inertial>
+      <origin xyz="-5.55111512312578E-16 -6.24500451351651E-17 -0.368" rpy="0 0 0" />
+      <mass value="0.0573157505737431" />
+      <inertia ixx="0.00168724685333462" ixy="-1.95026420120651E-23" ixz="-9.82558218814988E-19" iyy="0.00168724685333461" iyz="-2.73831028766095E-19" izz="2.40911741756134E-06" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re1_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re1_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="re1" type="continuous">
+    <origin xyz="0 0 0.0333733971724094" rpy="-1.57079632679489 0 1.5707963267949" />
+    <parent link="ball_top1_Link" />
+    <child link="re1_Link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="ball_bot1_Link">
+
+    <inertial>
+      <origin xyz="0 -3.88578058618805E-16 -0.0333733971724045" rpy="0 0 0" />
+      <mass value="0.00403450389151663" />
+      <inertia ixx="5.68434704387569E-07" ixy="0" ixz="-1.50369652192614E-22" iyy="5.68434704387569E-07" iyz="-5.61340337985591E-23" izz="4.2954616111995E-08" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot1_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot1_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+  
+  <joint name="re_ball" type="continuous">
+    <origin xyz="0 0 -0.736" rpy="1.57079632679489 1.5707963267949 0" />
+    <parent link="re1_Link" />
+    <child link="ball_bot1_Link" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="ball_moving_Link">
+
+    <inertial>
+      <origin xyz="0.0333733971724034 0.0346410161513765 -0.000395409279406289" rpy="0 0 0" />
+      <mass value="0.024578598394115" />
+      <inertia ixx="1.11301111565817E-05" ixy="-1.0553815217793E-21" ixz="2.98720633800108E-23" iyy="1.1130111156582E-05" iyz="-2.37814426108995E-21" izz="2.18824601689992E-05" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_moving_Link.STL" />
+      </geometry>
+      <material name="LightGreyClear"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_moving_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="ball_moving" type="continuous">
+    <origin xyz="0 0 0" rpy="2.5591 1.5708 0" />
+    <parent link="ball_bot1_Link" />
+    <child link="ball_moving_Link" />
+    <axis xyz="-1 0 0" />
+  </joint>
+
+  <!-- Copy Past from New URDF 6 -->
+
+  <link name="xyz_link">
+      <visual>
+      <!-- STL is exported at ball joint, shift to middle -->
+      <origin xyz="0 -0.034641 0" rpy="0 ${pi/2} 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/6_dof/ball_moving_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+  </link>
+
+  <joint name="floating_joint" type="floating">
+  <!-- <joint name="floating_joint" type="fixed"> -->
+    <!-- <origin xyz="0 -0.034641 -0.805" rpy="0 0 0" /> -->
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="xyz_link" />
+  </joint>
+
+  <!-- Adapter link to center and rotate -->
+
+  <link name="axis4_Link">
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/axis4_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/axis4_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="axis4" type="continuous">
+    <origin xyz="0 0 0.0005" rpy="0 0 ${pi/2}" />
+    <parent link="xyz_link" />
+    <child link="axis4_Link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+<!-- Serial Chain - END -->
+
+<!-- Fixed Links on Moving Platform - START -->
+
+  <link name="ball_bot2_Link">
+
+    <inertial>
+      <origin xyz="-1.33226762955019E-15 1.0547118733939E-15 -0.0133133014137978" rpy="0 0 0" />
+      <mass value="0.00403450389151663" />
+      <inertia ixx="5.68434704387569E-07" ixy="5.29395592033938E-23" ixz="-1.75090631434492E-22" iyy="5.68434704387569E-07" iyz="-7.85728408212561E-23" izz="4.2954616111995E-08" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot2_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot2_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="ball_bot2" type="fixed">
+    <origin xyz="0.07003 0.040432 0" rpy="-1.5708 0.98835 -2.618" />
+    <parent link="ball_moving_Link" />
+    <child link="ball_bot2_Link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="ball_bot3_Link">
+
+    <inertial>
+      <origin xyz="-4.44089209850063E-16 1.4432899320127E-15 0.0465710472243423" rpy="0 0 0" />
+      <mass value="0.00403450389151663" />
+      <inertia ixx="5.68434704387569E-07" ixy="-2.64697796016969E-23" ixz="3.99022495151383E-22" iyy="5.68434704387569E-07" iyz="-1.1213966056023E-22" izz="4.2954616111995E-08" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot3_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_bot3_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="ball_bot3" type="fixed">
+    <origin xyz="-0.019912 0.01163 0" rpy="1.5708 -0.98835 2.618" />
+    <parent link="ball_moving_Link" />
+    <child link="ball_bot3_Link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+<!-- Fixed Links on Moving Platform - END -->
+
+<!-- Driven Parallel Links - START -->
+
+  <link name="re2_Link">
+
+    <inertial>
+      <origin xyz="-3.88578058618805E-16 -9.71445146547012E-17 -0.368" rpy="0 0 0" />
+      <mass value="0.057315750573743" />
+      <inertia ixx="0.00168724685333462" ixy="-8.51517412309534E-23" ixz="-1.17981101640683E-18" iyy="0.00168724685333462" iyz="-3.03320016728441E-19" izz="2.4091174175618E-06" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re2_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re2_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="re2" type="continuous">
+    <origin xyz="0 0 -0.0333733971723995" rpy="-1.57079632679489 0 1.5707963267949" />
+    <parent link="ball_top1_Link" />
+    <child link="re2_Link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="rf2_Link">
+
+    <inertial>
+      <origin xyz="-0.000180009871745185 -0.105698167078432 -0.00334457386232478" rpy="0 0 0" />
+      <mass value="0.105840527396936" />
+      <inertia ixx="0.000251568641704869" ixy="-1.31915124400507E-07" ixz="-2.48118486774048E-11" iyy="2.49431921936754E-05" iyz="9.97258259821399E-07" izz="0.000257239597683217" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf2_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf2_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="theta2" type="continuous">
+    <origin xyz="0.11928 0.068867 -0.19123" rpy="-1.5708 -1.5279 -2.618" />
+    <parent link="base_link" />
+    <child link="rf2_Link" />
+    <axis xyz="0 0 -1" />
+  </joint>
+
+  <link name="ball_top2_Link">
+
+    <inertial>
+      <origin xyz="0 5.55111512312578E-17 -2.22044604925031E-16" rpy="0 0 0" />
+      <mass value="0.00403450389151663" />
+      <inertia ixx="5.68434704387569E-07" ixy="-5.29395592033938E-23" ixz="2.25005090297828E-22" iyy="5.68434704387569E-07" iyz="4.31443928495655E-22" izz="4.2954616111995E-08" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top2_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top2_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="ball_top2" type="continuous">
+    <origin xyz="-0.012500000000001 -0.3015 0" rpy="0 0 2.51628974348086" />
+    <parent link="rf2_Link" />
+    <child link="ball_top2_Link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="re3_Link">
+
+    <inertial>
+      <origin xyz="6.66133814775094E-16 -1.13797860024079E-15 -0.368000000000001" rpy="0 0 0" />
+      <mass value="0.057315750573743" />
+      <inertia ixx="0.00168724685333462" ixy="6.92705888295819E-20" ixz="2.80389081364855E-18" iyy="0.00168724685333462" iyz="-5.12751653114693E-18" izz="2.40911741756149E-06" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re3_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re3_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="re3" type="continuous">
+    <origin xyz="0 0 0.0333733971724042" rpy="-1.5707963267949 0 1.5707963267949" />
+    <parent link="ball_top2_Link" />
+    <child link="re3_Link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="re4_Link">
+
+    <inertial>
+      <origin xyz="6.66133814775094E-16 -2.91433543964104E-16 -0.368" rpy="0 0 0" />
+      <mass value="0.057315750573743" />
+      <inertia ixx="0.00168724685333461" ixy="-3.79244537653438E-20" ixz="1.9421406689357E-18" iyy="0.00168724685333461" iyz="-7.66827937291266E-19" izz="2.4091174175619E-06" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re4_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re4_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="re4" type="continuous">
+    <origin xyz="0 0 -0.0333733971724047" rpy="-1.5707963267949 0 1.5707963267949" />
+    <parent link="ball_top2_Link" />
+    <child link="re4_Link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="rf3_Link">
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf3_Link.STL" />
+      </geometry>
+      <material name="LightGrey">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/rf3_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="theta3" type="continuous">
+    <origin xyz="-0.119280710091501 0.068866750080458 -0.191228422747961" rpy="-1.5707963267949 -1.52794093527818 -0.523598775598293" />
+    <parent link="base_link" />
+    <child link="rf3_Link" />
+    <axis xyz="0 0 -1" />
+  </joint>
+
+  <link name="ball_top3_Link">
+
+    <inertial>
+      <origin xyz="-2.77555756156289E-17 1.11022302462516E-16 -1.66533453693773E-16" rpy="0 0 0" />
+      <mass value="0.00403450389151663" />
+      <inertia ixx="5.68434704387569E-07" ixy="-1.05879118406788E-22" ixz="1.31270317227593E-21" iyy="5.68434704387569E-07" iyz="-3.02898626422217E-22" izz="4.2954616111995E-08" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top3_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/ball_top3_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="ball_top3" type="continuous">
+    <origin xyz="-0.0125000000000005 -0.3015 0" rpy="0 0 2.51628974348087" />
+    <parent link="rf3_Link" />
+    <child link="ball_top3_Link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="re5_Link">
+
+    <inertial>
+      <origin xyz="-4.44089209850063E-16 3.05311331771918E-16 -0.368" rpy="0 0 0" />
+      <mass value="0.057315750573743" />
+      <inertia ixx="0.00168724685333462" ixy="-1.36090828351888E-20" ixz="-1.53556485425364E-18" iyy="0.00168724685333462" iyz="1.85158360849357E-18" izz="2.40911741756136E-06" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re5_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re5_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="re5" type="continuous">
+    <origin xyz="0 0 0.0333733971724043" rpy="-1.5707963267949 0 1.5707963267949" />
+    <parent link="ball_top3_Link" />
+    <child link="re5_Link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="re6_Link">
+
+    <inertial>
+      <origin xyz="-2.22044604925031E-16 2.4980018054066E-16 -0.368" rpy="0 0 0" />
+      <mass value="0.057315750573743" />
+      <inertia ixx="0.00168724685333462" ixy="2.70673505260576E-20" ixz="-1.72614726738586E-18" iyy="0.00168724685333462" iyz="1.20806046488522E-18" izz="2.40911741756203E-06" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re6_Link.STL" />
+      </geometry>
+      <material name="LightGrey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://deltax_descriptions/meshes/4_dof/re6_Link.STL" />
+      </geometry>
+    </collision>
+
+  </link>
+
+  <joint name="re6" type="continuous">
+    <origin xyz="0 0 -0.0333733971724047" rpy="-1.5707963267949 0 1.5707963267949" />
+    <parent link="ball_top3_Link" />
+    <child link="re6_Link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+<!-- Driven Parallel Links - END -->
+
+</robot>

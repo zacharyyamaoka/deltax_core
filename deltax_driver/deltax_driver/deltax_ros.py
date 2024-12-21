@@ -78,7 +78,7 @@ class StatePublisher(object):
 
         self.tf_xyz.header.stamp = now.to_msg()
         self.tf_xyz.transform.translation.x = x/1000 
-        self.tf_xyz.transform.translation.y = y/1000 -0.034641
+        self.tf_xyz.transform.translation.y = y/1000 # -0.034641 No longer needed as it's shifted in URDF
         self.tf_xyz.transform.translation.z = z/1000
         # self.tf_xyz.transform.rotation = euler_to_quaternion(0., pi/2, pi) # roll,pitch,yaw
         self.tf_xyz.transform.rotation = ros_quaternion(quaternion_from_euler(0., 0., 0.))  
@@ -92,18 +92,19 @@ class StatePublisher(object):
 def ros_quaternion(q):
     return Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
 
-class RosDriver():
-    def __init__(self, node:Node):
-        """
-            Wraps serial interface with ROS I/O
-        """
+class DeltaXRos():
 
+    """
+        Wraps serial interface with ROS I/O
+    """
+
+    def __init__(self, node:Node):
         self.node = node
         self.path = "/dev/serial/by-id/usb-Teensyduino_USB_Serial_15341050-if00"
         self.deltax = DeltaX(port = self.path, use_thread = False)
         self.state_pub = StatePublisher(self.deltax, self.node)
 
-        self.state_timer = self.node.create_timer(0.01, self.loop)
+        self.loop_timer = self.node.create_timer(0.01, self.loop)
         # self.serial_timer = self.node.create_timer(0.01, self.random_cb, self.driver_cb)
 
         if self.deltax.connect():
@@ -134,16 +135,10 @@ class RosDriver():
         else:
             self.node.get_logger().error(f"Could not Connect To Robot: {self.path}")
 
-        # gcode_qos = QoSProfile(
-        #         durability=QoSDurabilityPolicy.VOLATILE,
-        #         reliability=QoSReliabilityPolicy.RELIABLE,
-        #         history=QoSHistoryPolicy.KEEP_LAST,
-        #         depth=10,
-        #     )
-        
         self.gcode_sub = self.node.create_subscription(String, 'gcode', self.gcode_callback, 10)
     
     def loop(self):
+        # Simple read/publish loop
         self.deltax.serial_read()
         self.state_pub.run()
 
@@ -164,9 +159,9 @@ class RosDriver():
 
 def main(args=None):
     rclpy.init(args=args)
-    node = Node("ros_driver", namespace="/bam_BAMGPU",  cli_args=["--ros-args", "-r", "/tf:=tf", "-r", "/tf_static:=tf_static"])
+    node = Node("deltax_ros", namespace="/bam_BAMGPU",  cli_args=["--ros-args", "-r", "/tf:=tf", "-r", "/tf_static:=tf_static"])
 
-    driver = RosDriver(node)
+    driver = DeltaXRos(node)
     
     executor = SingleThreadedExecutor()
     executor.add_node(node)
