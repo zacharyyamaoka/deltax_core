@@ -124,7 +124,6 @@ class DeltaXRos():
             self.deltax.sendGcode('M60 P179 Q-179')
             self.deltax.sendGcode('M62 H27.5')
 
-
             self.deltax.sendGcode('M207 Z-935')
             self.deltax.sendGcode('M100 A1 B10')
             self.deltax.sendGcode('Position')
