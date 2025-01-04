@@ -123,8 +123,8 @@ class DeltaXRos():
 
             self.deltax.sendGcode('M60 P179 Q-179')
             self.deltax.sendGcode('M62 H27.5')
-
-            self.deltax.sendGcode('M207 Z-935')
+            self.send_gcode('M207 Z-972')
+            # self.deltax.sendGcode('M207 Z-935')
             self.deltax.sendGcode('M100 A1 B10')
             self.deltax.sendGcode('Position')
             self.deltax.sendGcode('G0 X0 Y0 W0') #send W0 to zero before homing to avoid spinning wrong way, send X0Y0 to avoid hitting camera

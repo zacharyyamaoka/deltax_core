@@ -3,6 +3,8 @@ import serial
 import threading
 import time
 
+LOGGING = False
+
 class DeltaX():
 
     """
@@ -77,8 +79,10 @@ class DeltaX():
         self.__verbose = True
 
     def log(self, msg, type="info"):
-
-        print(msg)
+        if type == "info" and True: 
+            print(msg)
+        if type == "error" and True: 
+            print(msg)
 
     def connect(self):
         """Open comport and connect with robot."""
@@ -196,15 +200,18 @@ class DeltaX():
 
             if response.startswith("Position:"):
                 # Use print with `end=''` to stay on the same line for Position responses
-                print(f"\r<< {response.ljust(80)}", end='', flush=True)
+                # if LOGGING:
+                # print(f"\r<< {response.ljust(80)}", end='', flush=True)
                 # self.log(f"\r<< {response.ljust(80)}")
                 self.__same_line = True
+                pass
             else:
                 # Print a new line for non-Position responses
-                if self.__same_line:
-                    print()
-                    self.__same_line = False
-                print(f"<< {response}")
+                # if self.__same_line:
+                    # self.log("")
+                    # self.__same_line = False
+                self.log(f"<< {response}")
+
                 # self.log(f"<< {response}")
 
             self.__latest_response = response
@@ -289,11 +296,10 @@ class DeltaX():
             self.log(e,'error')
 
     def __send_gcode_to_robot(self, data):
-        if self.__same_line:
-            print()
-            self.__same_line = False
-        print(f">> {data}")
-        # self.log(f">> {data}")
+        # if self.__same_line:
+            # self.log("")
+            # self.__same_line = False
+        self.log(f">> {data}")
         if self.__serial.isOpen() == False:
             return
         data = data + '\n'
