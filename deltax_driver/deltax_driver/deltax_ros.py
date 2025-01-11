@@ -121,7 +121,7 @@ class DeltaXRos():
             self.deltax.sendGcode('M212 F200 A500 S0 E0')
             self.deltax.sendGcode('M213 F100 A500 S0 E0')
 
-            self.deltax.sendGcode('M60 P179 Q-179')
+            self.deltax.sendGcode('M60 P180 Q-180') 
             self.deltax.sendGcode('M62 H27.5')
             self.send_gcode('M207 Z-972')
             # self.deltax.sendGcode('M207 Z-935')
