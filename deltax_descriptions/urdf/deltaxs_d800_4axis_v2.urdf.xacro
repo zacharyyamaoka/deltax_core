@@ -246,8 +246,10 @@
     </collision>
   </link>
 
+  <!-- rotate this to set the zero properly... -->
+
   <joint name="axis4" type="continuous">
-    <origin xyz="0 0 0.0005" rpy="0 0 ${pi/2}" />
+    <origin xyz="0 0 0.0005" rpy="0 0 0" />
     <parent link="xyz_link" />
     <child link="axis4_Link" />
     <axis xyz="0 0 1" />

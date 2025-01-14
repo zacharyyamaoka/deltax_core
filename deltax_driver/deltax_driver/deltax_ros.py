@@ -49,6 +49,7 @@ class StatePublisher(object):
     def run(self):
 
         [x, y, z, w, u, v] = self.robot_interface.position()
+        w += 2 #compensate for offset
 
         self.deltaxs_kinematic.inverse(x, y, z)
         theta1, theta2, theta3 = self.deltaxs_kinematic.get_theta()
@@ -116,20 +117,23 @@ class DeltaXRos():
 
             self.node.get_logger().info(f"Connected to Robot: {self.path}")
             self.deltax.sendGcode('Emergency:Resume')
+
             self.deltax.sendGcode('M210 F3000 A500 S0 E0')
             self.deltax.sendGcode('M211 F360 A500 S0 E0')
             self.deltax.sendGcode('M212 F200 A500 S0 E0')
             self.deltax.sendGcode('M213 F100 A500 S0 E0')
 
-            self.deltax.sendGcode('M60 P180 Q-180') 
-            self.deltax.sendGcode('M62 H27.5')
+            # +- 180 to prevent cable from being pulled out. Add a bit more to allow for home offfset
+            self.deltax.sendGcode('M60 P190 Q-190') # Set Axis 4 Parameters
+            self.deltax.sendGcode('M62 H27.5') # Set Axis 6 Parameters
             self.send_gcode('M207 Z-972')
             # self.deltax.sendGcode('M207 Z-935')
             self.deltax.sendGcode('M100 A1 B10')
             self.deltax.sendGcode('Position')
             self.deltax.sendGcode('G0 X0 Y0 W0') #send W0 to zero before homing to avoid spinning wrong way, send X0Y0 to avoid hitting camera
             self.deltax.sendGcode('G28')
-            self.deltax.sendGcode('G0 W0 U0 V0')
+            self.deltax.sendGcode('G0 W-2 U0 V0')
+
 
         else:
             self.node.get_logger().error(f"Could not Connect To Robot: {self.path}")
