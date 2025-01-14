@@ -147,12 +147,14 @@ class DeltaX():
 
         try:
             responst = self.__serial.readline().decode()
+
+            if responst != "":
+                self.__last_time = time.time()
+                self.__response_handling(responst)
+                responst = ""
         except Exception as e: self.log(e,'error')
 
-        if responst != "":
-            self.__last_time = time.time()
-            self.__response_handling(responst)
-            responst = ""
+
     
 
         
