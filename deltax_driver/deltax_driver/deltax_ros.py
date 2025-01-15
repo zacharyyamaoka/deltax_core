@@ -118,6 +118,11 @@ class DeltaXRos():
             self.node.get_logger().info(f"Connected to Robot: {self.path}")
             self.deltax.sendGcode('Emergency:Resume')
 
+            self.deltax.sendGcode('M220 I0')
+            self.deltax.sendGcode('M220 I1')
+            self.deltax.sendGcode('M220 I2')
+            self.deltax.sendGcode('M220 I3')
+
             self.deltax.sendGcode('M210 F3000 A500 S0 E0')
             self.deltax.sendGcode('M211 F360 A500 S0 E0')
             self.deltax.sendGcode('M212 F200 A500 S0 E0')

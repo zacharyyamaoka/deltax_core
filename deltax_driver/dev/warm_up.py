@@ -1,4 +1,4 @@
-from deltax_driver.robot import DeltaX
+from deltax_driver.deltax_ros import DeltaX
 import time
 import sys
 import rclpy
@@ -83,17 +83,17 @@ deltax.wait_for_robot_response()
 #endregion
 
 #region - Sending trajectory
-deltax.sendGcode("G0 X0 Y0  Z-920 W0 U0 V-20  F500 A500 S0 E0")
-deltax.sendGcode("G0 X0 Y-300  Z-780 W0 U0 V0  F500 A500 S0 E0")
-deltax.sendGcode("G0 X0 Y300  Z-920 W0 U0 V0  F500 A500 S0 E0")
-deltax.sendGcode("G0 X0 Y-300  Z-780 W0 U0 V0  F500 A500 S0 E0")
+deltax.sendGcode("G0 X0 Y0  Z-900 W0 U0 V-20  F500 A500 S0 E0")
+deltax.sendGcode("G0 X0 Y-300  Z-750 W0 U0 V0  F500 A500 S0 E0")
+deltax.sendGcode("G0 X0 Y300  Z-900 W0 U0 V0  F500 A500 S0 E0")
+deltax.sendGcode("G0 X0 Y-300  Z-750 W0 U0 V0  F500 A500 S0 E0")
 deltax.wait_for_robot_response()
 #endregion
 
 # region - Testing Pick and Place pattern
 width = 500
-z_top = -800
-z_bottom = -950
+z_top = -750
+z_bottom = -900
 radius = 60
 
 deltax.sendGcode(f"G0 X0 Y{width/2}  Z{z_bottom} W90 U0 V-20  F500 A500 S0 E0")
