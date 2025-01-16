@@ -350,7 +350,7 @@ class Scurve_Interpolator:
         # B ---- Cm ----- D - C
 
         total_time = time.time() - start_time
-        print('Starting Point: Cmx:{0}, Cmy:{1}'.format(Cmx, Cmy))
+        # print('Starting Point: Cmx:{0}, Cmy:{1}'.format(Cmx, Cmy))
 
         while i < 200:
             
@@ -367,9 +367,6 @@ class Scurve_Interpolator:
 
             AC = math.sqrt(math.pow(Cx - x1, 2) + math.pow(Cy - y1, 2))
             # print('AC:' + str(AC))
-            print("z2: ", z2)
-            print("z1: ", z1)
-            print("z2 - z2: ", z2-z1)
             ACz = math.sqrt(math.pow(AC, 2) + math.pow(z2 - z1, 2))
             # print('ACz: ' + str(ACz))
             self.p_target = ACz
@@ -392,7 +389,6 @@ class Scurve_Interpolator:
                 print('robot time: ' + str(t))
                 print('total time: ' + str(total_time))
                 print('BD: ' + str(BD))
-
                 break
 
         # print('total time: ' + str(total_time))
