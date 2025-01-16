@@ -25,7 +25,8 @@ install(PROGRAMS
   deltax_driver/deltax_ros.py
   deltax_driver/deltax_kinematic.py
   deltax_driver/serial_interface.py
-  
+  deltax_driver/scurve_interpolator.py
+
   DESTINATION lib/${PROJECT_NAME}
 )
 
