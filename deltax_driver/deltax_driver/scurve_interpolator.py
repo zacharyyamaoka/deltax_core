@@ -350,9 +350,11 @@ class Scurve_Interpolator:
         # B ---- Cm ----- D - C
 
         total_time = time.time() - start_time
+        print('Starting Point: Cmx:{0}, Cmy:{1}'.format(Cmx, Cmy))
 
         while i < 200:
             
+            # print(f"----- {i} ----- ")
             BC = BCm + step * i
             # print('BC:' + str(BC))
 
@@ -365,6 +367,9 @@ class Scurve_Interpolator:
 
             AC = math.sqrt(math.pow(Cx - x1, 2) + math.pow(Cy - y1, 2))
             # print('AC:' + str(AC))
+            print("z2: ", z2)
+            print("z1: ", z1)
+            print("z2 - z2: ", z2-z1)
             ACz = math.sqrt(math.pow(AC, 2) + math.pow(z2 - z1, 2))
             # print('ACz: ' + str(ACz))
             self.p_target = ACz
@@ -379,6 +384,15 @@ class Scurve_Interpolator:
             # print('BD: ' + str(BD))
             
             if BC - BD > 0.5: # difference less than 0.5mm
+                print("Found solution on iter: ", i)
+                print('BC:' + str(BC))
+                print('Cx:{0}, Cy:{1}'.format(Cx, Cy))
+                print('AC:' + str(AC))
+                print('ACz: ' + str(ACz))
+                print('robot time: ' + str(t))
+                print('total time: ' + str(total_time))
+                print('BD: ' + str(BD))
+
                 break
 
         # print('total time: ' + str(total_time))
@@ -399,7 +413,7 @@ def main(args=None):
     # print(moving.find_sync_point(0, 0, -0.9, 0.1, 0, -0.9, vel=0.1, angle=math.radians(45), time_offset=2 ))
     # print(moving.find_sync_point(0, 0, -0.9, 0.1, 0, -0.9, vel=0.00001, angle=math.radians(0), time_offset=0 ))
 
-    print(moving.find_sync_point(0, 0, -0.9, 0, -0.1, -0.9, vel=0.1, angle=math.radians(-90), time_offset=2 ))
+    print(moving.find_sync_point(0, 0, -0.9, 0.1, 0, -0.9, vel=0.02, angle=math.radians(-90), time_offset=0 ))
 
     # a = time.time()
     # print(moving.find_sync_point(-100, 100, 20, -50, 100, -10))
