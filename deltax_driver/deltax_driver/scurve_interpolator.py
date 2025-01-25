@@ -381,14 +381,14 @@ class Scurve_Interpolator:
             # print('BD: ' + str(BD))
             
             if BC - BD > 0.5: # difference less than 0.5mm
-                print("Found solution on iter: ", i)
-                print('BC:' + str(BC))
-                print('Cx:{0}, Cy:{1}'.format(Cx, Cy))
-                print('AC:' + str(AC))
-                print('ACz: ' + str(ACz))
-                print('robot time: ' + str(t))
-                print('total time: ' + str(total_time))
-                print('BD: ' + str(BD))
+                # print("Found solution on iter: ", i)
+                # print('BC:' + str(BC))
+                # print('Cx:{0}, Cy:{1}'.format(Cx, Cy))
+                # print('AC:' + str(AC))
+                # print('ACz: ' + str(ACz))
+                # print('robot time: ' + str(t))
+                # print('total time: ' + str(total_time))
+                # print('BD: ' + str(BD))
                 break
 
         # print('total time: ' + str(total_time))
